@@ -13,3 +13,9 @@ export const API_DELETE = "API_DELETE";
 export const API_FETCH_ALL = 'API_FETCH_ALL';
 
 export const UPDATE_CURRENT_ID = "UPDATE_CURRENT_ID"
+
+
+export const TABLE_CREATE = "TABLE_CREATE";
+export const TABLE_UPDATE = "TABLE_UPDATE";
+export const TABLE_DELETE = "TABLE_DELETE";
+export const TABLE_FETCH_ALL = 'TABLE_FETCH_ALL';

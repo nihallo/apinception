@@ -3,7 +3,7 @@ import { Container, Grid , Paper, Button, Typography,TextField} from '@material-
 import {useDispatch,useSelector} from 'react-redux';
 
 import useStyles from './styles';
-import {createApiStructure, updateApiStructure, deleteApiStructure } from '../../actions/apiStructure';
+import {createApiStructure, updateApiStructure } from '../../actions/apiStructure';
 
 const initialState = { apiName:'', apiCode:'',apiStructureText:''};
 
@@ -17,9 +17,7 @@ const ApiStructure = ()=>{
     const apiRecord = useSelector((state) => (currentId ? state.apiStructure.find((message) => message._id === currentId) : null));
     console.log('apiRecord based on currentId after use selector, ', apiRecord);
 
-    const handleChange =(e)=>{
-        setForm({...form,[e.target.name]:e.target.value});
-    }
+   
     const handleSubmit=(e)=>{      
         e.preventDefault();
         if(currentId){

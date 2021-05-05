@@ -25,3 +25,5 @@ export const deleteApiStructure = (id) => API.delete(`/apiStructure/${id}`);
 
 export const fetchApiListing = () => API.get('/apiStructure');
 
+export const createTable = (newTable) => API.post('/table',newTable);
+
