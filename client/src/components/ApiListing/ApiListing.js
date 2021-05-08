@@ -6,7 +6,7 @@ import ApiRecord from './ApiRecord/ApiRecord';
 
 const ApiListing = () => {
   const apiListing = useSelector((state) => state.apiStructure);
-    console.log('Inside ApiListing component:listing data: ', apiListing);
+  console.log('Inside ApiListing component:listing data: ', apiListing);
   return (
     !apiListing.length ? <CircularProgress /> : (
       <Grid container alignItems="stretch" spacing={3}>

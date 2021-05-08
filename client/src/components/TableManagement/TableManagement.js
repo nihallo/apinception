@@ -16,7 +16,7 @@ const TableManagement = () => {
     dispatch]);
 
   return (
-    <Grow>
+    <Grow in> 
 
       <Container>
         <Container>
@@ -25,11 +25,10 @@ const TableManagement = () => {
           <Container>
             <Grid container justify="space-between" alignItems="stretch" spacing={3}>
               <Grid item xs={12} sm={7}>
-                <Tables //currentId={currentId} setCurrentId={setCurrentId} 
-                ></Tables>
+                <Tables />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <TableForm></TableForm>
+                <TableForm />
               </Grid>
             </Grid>
         </Container>

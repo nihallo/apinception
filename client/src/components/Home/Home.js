@@ -10,19 +10,18 @@ const Home = () => {
   console.log('start of Home compnents');
 
   const dispatch = useDispatch();
-  const currentId = useSelector((state) => state.currentId);
+  const currentId = useSelector((state) => (state.currentId));
 
   useEffect(() => {
     dispatch(getApiListing());
   }, [currentId, dispatch]);
 
   return (
-    <Grow>
-
+    <Grow in>
       <Container>
-        <Container>
-          <h1>create tables</h1>
-        </Container>
+
+          <h1 color="primary">create tables</h1>
+      
           <Container>
             <Grid container justify="space-between" alignItems="stretch" spacing={3}>
               <Grid item xs={12} sm={7}>

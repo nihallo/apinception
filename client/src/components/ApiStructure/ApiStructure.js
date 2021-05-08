@@ -34,7 +34,7 @@ const ApiStructure = ()=>{
         console.log('inside ApiStructure UseEffect: is apiRecord data updated: ', apiRecord);
         if(apiRecord) setForm({ ...apiRecord});
         console.log('inside ApiStructure UseEffect: is form data updated: ', form);
-    },[currentId, form, apiRecord]);
+    },[currentId]);
  
     return (
         <Paper className ={classes.paper} elevation ={3}>
