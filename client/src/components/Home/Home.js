@@ -7,6 +7,7 @@ import ApiStructure from '../ApiStructure/ApiStructure';
 import ApiListing from '../ApiListing/ApiListing';
 
 const Home = () => {
+  console.log('start of Home compnents');
   const [currentId, setCurrentId] = useState(0);
   const dispatch = useDispatch();
 

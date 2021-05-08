@@ -6,6 +6,7 @@ import decode from 'jwt-decode';
 
 import memories from '../../images/memories.png';
 import * as actionType from '../../constants/actionTypes';
+import SimpleMenu from '../Menu/Menu';
 import useStyles from './styles';
 
 const Navbar = () => {
@@ -23,13 +24,10 @@ const Navbar = () => {
 
   useEffect(() => {
     const token = user?.token;
-
     if (token) {
       const decodedToken = decode(token);
-
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-
     setUser(JSON.parse(localStorage.getItem('profile')));
   }, [location]);
 
@@ -39,6 +37,10 @@ const Navbar = () => {
         <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">Memories</Typography>
         <img className={classes.image} src={memories} alt="icon" height="60" />
       </div>
+      <div>
+        <SimpleMenu></SimpleMenu>
+      </div>
+
       <Toolbar className={classes.toolbar}>
         {user?.result ? (
           <div className={classes.profile}>
