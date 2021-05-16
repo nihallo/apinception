@@ -20,7 +20,6 @@ export const createTable = async (req, res) => {
     }
 }
 
-
 export const getTables = async (req, res) => { 
     try {
         const tables = await Table.find();

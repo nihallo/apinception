@@ -3,6 +3,9 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import { Link, useHistory, useLocation } from 'react-router-dom';
+
+
 export default function SimpleMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -11,6 +14,10 @@ export default function SimpleMenu() {
   };
 
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleTableManagementClose = ()=>{
     setAnchorEl(null);
   };
 
@@ -26,7 +33,7 @@ export default function SimpleMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}><Link to={'/tables'}>Table Managemenet </Link></MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>

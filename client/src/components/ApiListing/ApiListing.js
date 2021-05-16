@@ -1,18 +1,18 @@
 import React from 'react';
-import { Grid, Paper, CircularProgress } from '@material-ui/core';
+import { Grid, CircularProgress } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
 import ApiRecord from './ApiRecord/ApiRecord';
 
-const ApiListing = ({ setCurrentId }) => {
+const ApiListing = () => {
   const apiListing = useSelector((state) => state.apiStructure);
-    console.log('listing data: ', apiListing);
+  console.log('Inside ApiListing component:listing data: ', apiListing);
   return (
     !apiListing.length ? <CircularProgress /> : (
       <Grid container alignItems="stretch" spacing={3}>
         {apiListing.map((apiRecord) => (
           <Grid key={apiRecord._id} item xs={12} sm={6} md={6}>
-            <ApiRecord apiRecord={apiRecord} setCurrentId={setCurrentId} />
+            <ApiRecord apiRecord={apiRecord} />
           </Grid>
         ))}
       </Grid>

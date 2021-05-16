@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Grid , Paper, Button, Typography,TextField} from '@material-ui/core';
+import { Grid , Paper, Button, Typography,TextField} from '@material-ui/core';
 import {useDispatch,useSelector} from 'react-redux';
 
 import useStyles from './styles';
@@ -28,13 +28,13 @@ const ApiStructure = ()=>{
             dispatch( createApiStructure(form) );
         }
         setForm(initialState);
-    }
+    };
 
     useEffect(()=>{
         console.log('inside ApiStructure UseEffect: is apiRecord data updated: ', apiRecord);
         if(apiRecord) setForm({ ...apiRecord});
         console.log('inside ApiStructure UseEffect: is form data updated: ', form);
-    },[currentId])
+    },[currentId]);
  
     return (
         <Paper className ={classes.paper} elevation ={3}>

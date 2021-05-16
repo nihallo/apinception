@@ -7,7 +7,7 @@ import cors from 'cors';
 import postRoutes from './routes/posts.js';
 import userRouter from "./routes/user.js";
 import apiStructureRouter from "./routes/apiStructure.js";
-import tables from './routes/tables.js';
+import tablesRouter from './routes/tables.js';
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use(cors());
 app.use('/posts', postRoutes);
 app.use("/user", userRouter);
 app.use("/apiStructure", apiStructureRouter);
-app.use("/tables", tables);
+app.use("/tables", tablesRouter);
 
 const CONNECTION_URL = 'mongodb+srv://testuser:testuser123@cluster0.xyl9j.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const PORT = process.env.PORT|| 5000;

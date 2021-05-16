@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react';
-import { Card, CardActions, CardContent, CardMedia,Container,Paper, Button, Typography } from '@material-ui/core/';
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import React from 'react';
+import { Card, Container,Paper, Button, Typography } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import useStyles from './styles';
