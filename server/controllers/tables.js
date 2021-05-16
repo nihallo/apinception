@@ -20,4 +20,15 @@ export const createTable = async (req, res) => {
     }
 }
 
+
+export const getTables = async (req, res) => { 
+    try {
+        const tables = await Table.find();
+                
+        res.status(200).json(tables);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
 export default router;
