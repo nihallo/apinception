@@ -13,7 +13,7 @@ const Table = ({ table }) => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('profile'));
   const classes = useStyles();
-
+  console.log("inside table.js, how table looks like: ",table);
   const handleCurrentIdChange = (currentId)=>{
     dispatch(updateCurrentId(currentId));
   }
@@ -32,10 +32,10 @@ const Table = ({ table }) => {
                 <Typography variant="body2" color="textSecondary" component="p">{table.tableDesc}</Typography>
                 <Grid>
                   {table.columns.map( (column)=>(
-                    <>
+                    <Grid key={column._id}>
                       <Typography>Column Name: {column.columnName}</Typography>
-                      <Typography>Column Name: {column.columnName}</Typography>
-                      </>
+                      <Typography>Column Type: {column.columnType}</Typography>
+                    </Grid>
                   ))}
                 </Grid>
                 {(user?.result?.googleId === table?.creator || user?.result?._id === table?.creator) && (
