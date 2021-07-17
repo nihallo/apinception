@@ -8,6 +8,7 @@ import postRoutes from './routes/posts.js';
 import userRouter from "./routes/user.js";
 import apiStructureRouter from "./routes/apiStructure.js";
 import tablesRouter from './routes/tables.js';
+import apiServiceRouter from './routes/apiService.js';
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use('/posts', postRoutes);
 app.use("/user", userRouter);
 app.use("/apiStructure", apiStructureRouter);
 app.use("/tables", tablesRouter);
+app.use("/apiService",apiServiceRouter)
 
 const CONNECTION_URL = 'mongodb+srv://testuser:testuser123@cluster0.xyl9j.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const PORT = process.env.PORT|| 5000;

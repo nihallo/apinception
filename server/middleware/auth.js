@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import {errorObject} from "../services/errorServices.js";
 
 const secret = 'test';
 
@@ -11,13 +12,17 @@ const auth = async (req, res, next) => {
 
     let decodedData;
 
-    if (token && isCustomAuth) {      
-      decodedData = jwt.verify(token, secret);
+    if (token && isCustomAuth) {
+      try{
+        decodedData = jwt.verify(token, secret);
+        req.userId = decodedData?.id;
+      }catch(error){
+        console.log("i am here",error);
+        res.status(401).json(errorObject("AUTH_ERROR",error.message));
+      }
 
-      req.userId = decodedData?.id;
     } else {
       decodedData = jwt.decode(token);
-
       req.userId = decodedData?.sub;
     }    
 
