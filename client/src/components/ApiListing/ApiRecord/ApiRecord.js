@@ -25,7 +25,7 @@ const ApiRecord = ({ apiRecord }) => {
   return (
       <>
         <Card>
-            <Container component="main" maxWidth="xs">
+            <Container component="main" >
             <Paper className ={classes.paper} elevation ={3} >
                 <Typography variant="h6">{apiRecord.apiName}</Typography>
                 <Typography gutterBottom variant="h6" > {apiRecord.apiCode}</Typography>

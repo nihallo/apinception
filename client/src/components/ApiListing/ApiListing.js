@@ -11,7 +11,7 @@ const ApiListing = () => {
     !apiListing.length ? <CircularProgress /> : (
       <Grid container alignItems="stretch" spacing={3}>
         {apiListing.map((apiRecord) => (
-          <Grid key={apiRecord._id} item xs={12} sm={6} md={6}>
+          <Grid key={apiRecord._id} item xs={12} sm={12} md={12}>
             <ApiRecord apiRecord={apiRecord} />
           </Grid>
         ))}
