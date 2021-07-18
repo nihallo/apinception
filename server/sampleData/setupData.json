@@ -1,0 +1,96 @@
+{
+    "_id": {
+        "$oid": "5f9bd79fd8c9341b2f80d64a"
+    },
+    "apiId": {
+        "$numberInt": "1"
+    },
+    "apiProcessingStepList": [
+        {
+            "stepNumber": 1,
+            "stepName": "add age field to level 1",
+            "checkBeforeRun": "1==1",
+            "actionType": "ADD_FIELD",
+            "dataLevel": "LEVEL_1",
+            "addToWhichListName": "",
+            "fieldNameListName": "ageLastBirthday",
+            "columnNames": "",
+            "method": "CALCULATE",
+            "formula": "getAge(currendate-LEVEL_1.dateOfBirth)",
+            "tableName": "",
+            "whereCluse": "",
+            "sequenceCode": "",
+            "errorType": "",
+            "errorMessage": ""
+        },
+        {
+            "stepNumber": 2,
+            "stepName": "validate age >17",
+            "checkBeforeRun": "1==1",
+            "actionType": "VALIDATE",
+            "dataLevel": "LEVEL_1",
+            "addToWhichListName": "",
+            "fieldNameListName": "",
+            "columnNames": "",
+            "method": "CALCULATE",
+            "formula": "LEVEL_1.ageLastBirthday>17",
+            "tableName": "",
+            "whereCluse": "",
+            "sequenceCode": "",
+            "errorType": "WARNNING",
+            "errorMessage": "Age is more than 17 years old."
+        },
+        {
+            "stepNumber": 3,
+            "stepName": "add premium and plans",
+            "checkBeforeRun": "1==1",
+            "actionType": "ADD_LIST",
+            "dataLevel": "LEVEL_1",
+            "addToWhichListName": "",
+            "fieldNameListName": "PlanDetailList",
+            "columnNames": "alb, PlanBaseOnPrem, SA, Benefit, Libility, PremBreakdown",
+            "method": "QUERY_DB",
+            "formula": "",
+            "tableName": "PlanDetailList",
+            "whereCluse": "alb :dataAtLevel0.ageLastBirthday",
+            "sequenceCode": "",
+            "errorType": "WARNNING",
+            "errorMessage": "Age is more than 17 years old."
+        },
+        {
+            "stepNumber": 4,
+            "stepName": "add gst",
+            "checkBeforeRun": "1==1",
+            "actionType": "ADD_FIELD",
+            "dataLevel": "LEVEL_2",
+            "addToWhichListName": "PlanDetailList",
+            "fieldNameListName": "gstAmount",
+            "columnNames": "",
+            "method": "CALCULATE",
+            "formula": "lEVEL_1.PlanDetailList.PremBreakdown * 7%",
+            "tableName": "",
+            "whereCluse": "",
+            "sequenceCode": "",
+            "errorType": "",
+            "errorMessage": ""
+        },
+        {
+            "stepNumber": 5,
+            "stepName": "add quotation number",
+            "checkBeforeRun": "1==1",
+            "actionType": "ADD_FIELD",
+            "dataLevel": "LEVEL_1",
+            "addToWhichListName": "",
+            "fieldNameListName": "quotationNumber",
+            "columnNames": "",
+            "method": "SEQUENCE",
+            "formula": "",
+            "tableName": "",
+            "whereCluse": "",
+            "sequenceCode": "quotationSequence",
+            "errorType": "",
+            "errorMessage": ""
+        }
+    ],
+    "_class": "com.apinception.apinception.model.ApiProcessing"
+}
