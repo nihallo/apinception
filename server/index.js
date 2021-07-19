@@ -8,7 +8,7 @@ import postRoutes from './routes/posts.js';
 import userRouter from "./routes/user.js";
 import apiStructureRouter from "./routes/apiStructure.js";
 import tablesRouter from './routes/tables.js';
-import apiServiceRouter from './routes/apiService.js';
+import apiServiceRouter from './routes/apiServiceRoute.js';
 
 const app = express();
 

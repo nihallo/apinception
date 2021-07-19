@@ -1,10 +1,10 @@
 import express from 'express';
 
-import { apiService } from '../controllers/apiService.js';
+import { apiServiceController } from '../controllers/apiServiceController.js';
 
 const router = express.Router();
 import auth from "../middleware/auth.js";
 
-router.post('/',auth,  apiService);
+router.post('/',auth,  apiServiceController);
 
 export default router;
