@@ -1,11 +1,5 @@
-const inspector = require('schema-inspector');
+import  inspector from "schema-inspector";
 import { errorObject } from "./errorServices.js";
-
-
-export const apiService = () => {
-    return {"abc":"abc"}
-}
-
 
 export const validateApiSchema = (data) => {
 
@@ -35,13 +29,41 @@ export const validateApiSchema = (data) => {
                     promoCode:{type: 'string'}
         }
     };
+    const schemaSanitation = {
+
+        type: 'object',
+        properties: {
+                    companyCode:{type: 'string', rules: ["trim"] },
+                    partnerCode:{type: 'string', rules: ["trim"] },
+                    tripType:{type: 'string', rules: ["trim"]},
+                    groupType:{type: 'string', rules: ["trim"]},
+        periodOfInsuranceFrom:{type: 'date'},
+            periodOfInsuranceTo:{type: 'date'},
+                    countryCodes:{
+                                type: 'array',
+                                        items: 
+                                        [{
+                                                    type: 'object',
+                                                properties: {countryCode: {type: 'string' ,rules: ["trim"]} }
+                                                
+                                            }]
+                                },
+        noOfPersonTravelling:{type: 'integer'},
+                        noOfAdult:{type: 'integer'},
+                    noOfChild:{type: 'integer'},
+                    promoCode:{type: 'string'}
+        }
+
+    }
     if(1==2){
       console.log(errorObject("SCHEMA_NOT_FOUND","cannot find schema definition"));
       // return errors back to user
       return errorObject("SCHEMA_NOT_FOUND","cannot find schema definition");
     }
+    //Sanitization 
+    const sanitizedInput = inspector.sanitize(schemaDefinition,data);
     //validate structure
-    const validationResult = inspector.validate(schemaDefinition, data);
+    const validationResult = inspector.validate(sanitizedInput, data);
     
     if (!validationResult.valid) {
       console.log('errors:', validationResult.error);
