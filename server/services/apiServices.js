@@ -62,6 +62,7 @@ export const validateApiSchema = (data) => {
     }
     //Sanitization 
     const sanitizedInput = inspector.sanitize(schemaDefinition,data);
+    console.log("after sanitized: ", sanitizedInput);
     //validate structure
     const validationResult = inspector.validate(sanitizedInput, data);
     
