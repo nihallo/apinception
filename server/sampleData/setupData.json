@@ -1,10 +1,5 @@
 {
-    "_id": {
-        "$oid": "5f9bd79fd8c9341b2f80d64a"
-    },
-    "apiId": {
-        "$numberInt": "1"
-    },
+    "apiId": 123,
     "apiProcessingStepList": [
         {
             "stepNumber": 1,
@@ -91,6 +86,5 @@
             "errorType": "",
             "errorMessage": ""
         }
-    ],
-    "_class": "com.apinception.apinception.model.ApiProcessing"
+    ]
 }

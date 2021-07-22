@@ -1,10 +1,136 @@
 import  inspector from "schema-inspector";
 import { errorObject } from "./errorServices.js";
 
-export const validateApiSchema = (data) => {
+export const validateApiSchema = (data,schemaSanitation, schemaDefinition) => {
+    //sanitize the data, data will be updated based on sanitization rules
+    //validate whether 
 
     //Get schema structure
         //schema that will be defined by UI for an user and apiID
+
+    if(1==2){
+      console.log(errorObject("SCHEMA_NOT_FOUND","cannot find schema definition"));
+      // return errors back to user
+      return errorObject("SCHEMA_NOT_FOUND","cannot find schema definition");
+    }
+    //Sanitization the data
+    inspector.sanitize(schemaSanitation,data);
+
+    //validate structure
+    const validationResult = inspector.validate(schemaDefinition, data);
+    
+    if (!validationResult.valid) {
+        console.log('errors:', validationResult.error);
+        // return errors back to user
+        return errorObject("SCHEMA_VALIDATION_FAILED","data format is not matching with schema.");
+    } else {
+        return { success:true, object:data };
+    }
+}
+
+export const getProcessingSteps = async (apiId) =>{
+
+    return (
+        [
+            {
+                "stepNumber": 1,
+                "stepName": "add age field to level 1",
+                "checkBeforeRun": "1==1",
+                "actionType": "ADD_FIELD",
+                "dataLevel": "LEVEL_1",
+                "addToWhichListName": "",
+                "fieldNameListName": "ageLastBirthday",
+                "columnNames": "",
+                "method": "CALCULATE",
+                "formula": "getAge(currendate-LEVEL_1.dateOfBirth)",
+                "tableName": "",
+                "whereCluse": "",
+                "sequenceCode": "",
+                "errorType": "",
+                "errorMessage": ""
+            },
+            {
+                "stepNumber": 2,
+                "stepName": "validate age >17",
+                "checkBeforeRun": "1==1",
+                "actionType": "VALIDATE",
+                "dataLevel": "LEVEL_1",
+                "addToWhichListName": "",
+                "fieldNameListName": "",
+                "columnNames": "",
+                "method": "CALCULATE",
+                "formula": "LEVEL_1.ageLastBirthday>17",
+                "tableName": "",
+                "whereCluse": "",
+                "sequenceCode": "",
+                "errorType": "WARNNING",
+                "errorMessage": "Age is more than 17 years old."
+            },
+            {
+                "stepNumber": 3,
+                "stepName": "add premium and plans",
+                "checkBeforeRun": "1==1",
+                "actionType": "ADD_LIST",
+                "dataLevel": "LEVEL_1",
+                "addToWhichListName": "",
+                "fieldNameListName": "PlanDetailList",
+                "columnNames": "alb, PlanBaseOnPrem, SA, Benefit, Libility, PremBreakdown",
+                "method": "QUERY_DB",
+                "formula": "",
+                "tableName": "PlanDetailList",
+                "whereCluse": "alb :dataAtLevel0.ageLastBirthday",
+                "sequenceCode": "",
+                "errorType": "WARNNING",
+                "errorMessage": "Age is more than 17 years old."
+            },
+            {
+                "stepNumber": 4,
+                "stepName": "add gst",
+                "checkBeforeRun": "1==1",
+                "actionType": "ADD_FIELD",
+                "dataLevel": "LEVEL_2",
+                "addToWhichListName": "PlanDetailList",
+                "fieldNameListName": "gstAmount",
+                "columnNames": "",
+                "method": "CALCULATE",
+                "formula": "lEVEL_1.PlanDetailList.PremBreakdown * 7%",
+                "tableName": "",
+                "whereCluse": "",
+                "sequenceCode": "",
+                "errorType": "",
+                "errorMessage": ""
+            },
+            {
+                "stepNumber": 5,
+                "stepName": "add quotation number",
+                "checkBeforeRun": "1==1",
+                "actionType": "ADD_FIELD",
+                "dataLevel": "LEVEL_1",
+                "addToWhichListName": "",
+                "fieldNameListName": "quotationNumber",
+                "columnNames": "",
+                "method": "SEQUENCE",
+                "formula": "",
+                "tableName": "",
+                "whereCluse": "",
+                "sequenceCode": "quotationSequence",
+                "errorType": "",
+                "errorMessage": ""
+            }
+        ]);
+}
+
+export const getProcessingResult = async (data, processingSteps) =>{
+    processingSteps.forEach(stepObj=>{
+        console.log("steps: ",stepObj.stepNumber);
+       
+            //console.log(data);
+     
+    })
+    return {"jsonResult":" result from get procesing result."}
+}
+
+export const getSanitizationAndValidationRule = (apiId) =>{
     const schemaDefinition = {
         type: 'object',
         properties: {
@@ -54,23 +180,7 @@ export const validateApiSchema = (data) => {
                     promoCode:{type: 'string'}
         }
 
-    }
-    if(1==2){
-      console.log(errorObject("SCHEMA_NOT_FOUND","cannot find schema definition"));
-      // return errors back to user
-      return errorObject("SCHEMA_NOT_FOUND","cannot find schema definition");
-    }
-    //Sanitization 
-    const sanitizedInput = inspector.sanitize(schemaDefinition,data);
-    console.log("after sanitized: ", sanitizedInput);
-    //validate structure
-    const validationResult = inspector.validate(sanitizedInput, data);
-    
-    if (!validationResult.valid) {
-      console.log('errors:', validationResult.error);
-      // return errors back to user
-      return errorObject("SCHEMA_VALIDATION_FAILED","data format is not matching with schema.");
-    } else {
-        return { success:true};
-    }
+    };
+
+    return {schemaSanitation, schemaDefinition}
 }
