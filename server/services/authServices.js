@@ -26,7 +26,7 @@ export const verifyTokenGetId = async (token) => {
 
     const result = await UserModal.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
 
-    const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "1h" } );
+    const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "3h" } );
 
     return { success:true, object: {result, token} };
   } catch (error) {

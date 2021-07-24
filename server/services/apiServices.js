@@ -15,14 +15,13 @@ export const validateApiSchema = (data,schemaSanitation, schemaDefinition) => {
     }
     //Sanitization the data
     inspector.sanitize(schemaSanitation,data);
-
     //validate structure
     const validationResult = inspector.validate(schemaDefinition, data);
     
     if (!validationResult.valid) {
         console.log('errors:', validationResult.error);
         // return errors back to user
-        return errorObject("SCHEMA_VALIDATION_FAILED","data format is not matching with schema.");
+        return errorObject("SCHEMA_VALIDATION_FAILED", validationResult.error);
     } else {
         return { success:true, object:data };
     }
@@ -35,11 +34,11 @@ export const getProcessingSteps = async (apiId) =>{
             {
                 "stepNumber": 1,
                 "stepName": "add age field to level 1",
-                "checkBeforeRun": "1==1",
-                "actionType": "ADD_FIELD",
-                "dataLevel": "LEVEL_1",
+                "preCondition": "1==1",
+                "processingType": "ADD_FIELD",
+                "dataLevel": 1,
                 "addToWhichListName": "",
-                "fieldNameListName": "ageLastBirthday",
+                "fieldName": "ageLastBirthday",
                 "columnNames": "",
                 "method": "CALCULATE",
                 "formula": "getAge(currendate-LEVEL_1.dateOfBirth)",
@@ -52,11 +51,11 @@ export const getProcessingSteps = async (apiId) =>{
             {
                 "stepNumber": 2,
                 "stepName": "validate age >17",
-                "checkBeforeRun": "1==1",
-                "actionType": "VALIDATE",
+                "preCondition": "1==1",
+                "processingType": "VALIDATE",
                 "dataLevel": "LEVEL_1",
                 "addToWhichListName": "",
-                "fieldNameListName": "",
+                "fieldName": "",
                 "columnNames": "",
                 "method": "CALCULATE",
                 "formula": "LEVEL_1.ageLastBirthday>17",
@@ -69,11 +68,11 @@ export const getProcessingSteps = async (apiId) =>{
             {
                 "stepNumber": 3,
                 "stepName": "add premium and plans",
-                "checkBeforeRun": "1==1",
-                "actionType": "ADD_LIST",
+                "preCondition": "1==1",
+                "processingType": "ADD_LIST",
                 "dataLevel": "LEVEL_1",
                 "addToWhichListName": "",
-                "fieldNameListName": "PlanDetailList",
+                "fieldName": "PlanDetailList",
                 "columnNames": "alb, PlanBaseOnPrem, SA, Benefit, Libility, PremBreakdown",
                 "method": "QUERY_DB",
                 "formula": "",
@@ -86,11 +85,11 @@ export const getProcessingSteps = async (apiId) =>{
             {
                 "stepNumber": 4,
                 "stepName": "add gst",
-                "checkBeforeRun": "1==1",
-                "actionType": "ADD_FIELD",
+                "preCondition": "1==1",
+                "processingType": "ADD_FIELD",
                 "dataLevel": "LEVEL_2",
                 "addToWhichListName": "PlanDetailList",
-                "fieldNameListName": "gstAmount",
+                "fieldName": "gstAmount",
                 "columnNames": "",
                 "method": "CALCULATE",
                 "formula": "lEVEL_1.PlanDetailList.PremBreakdown * 7%",
@@ -103,11 +102,11 @@ export const getProcessingSteps = async (apiId) =>{
             {
                 "stepNumber": 5,
                 "stepName": "add quotation number",
-                "checkBeforeRun": "1==1",
-                "actionType": "ADD_FIELD",
+                "preCondition": "1==1",
+                "processingType": "ADD_FIELD",
                 "dataLevel": "LEVEL_1",
                 "addToWhichListName": "",
-                "fieldNameListName": "quotationNumber",
+                "fieldName": "quotationNumber",
                 "columnNames": "",
                 "method": "SEQUENCE",
                 "formula": "",
@@ -131,24 +130,23 @@ export const getSanitizationAndValidationRule = (apiId) =>{
                         partnerCode:{type: 'string', optional: false, minLength: 3},
                         tripType:{type: 'string', optional: false},
                         groupType:{type: 'string', optional: false},
-            periodOfInsuranceFrom:{type: 'date'},
-                periodOfInsuranceTo:{type: 'date'},
+                        periodOfInsuranceFrom:{type: 'date'},
+            periodOfInsuranceTo:{type: 'date'},
+                noOfPersonTravelling:{type: 'integer'},
+                        noOfAdult:{type: 'integer'},
+                        noOfChild:{type: 'integer'},
+                        promoCode:{type: 'string'},
                         countryCodes:{
                                     type: 'array',
                                     items: 
                                         [{
                                             type: 'object',
                                             properties: {countryCode: {type: 'string', optional: false, exactLength: 3} }
-                                            
                                         }]
-                        },
-            noOfPersonTravelling:{type: 'integer'},
-                            noOfAdult:{type: 'integer'},
-                        noOfChild:{type: 'integer'},
-                        promoCode:{type: 'string'}
-            }
-        }]
-    };
+                        }
+        }
+    }]
+};
     const schemaSanitation = {
         type: 'array',
         items: [{
@@ -164,18 +162,16 @@ export const getSanitizationAndValidationRule = (apiId) =>{
                                         type: 'array',
                                                 items: 
                                                 [{
-                                                            type: 'object',
+                                                        type: 'object',
                                                         properties: {countryCode: {type: 'string' ,rules: ["trim"]} }
-                                                        
                                                     }]
                                         },
                 noOfPersonTravelling:{type: 'integer'},
-                                noOfAdult:{type: 'integer'},
+                            noOfAdult:{type: 'integer'},
                             noOfChild:{type: 'integer'},
                             promoCode:{type: 'string'}
                 }
         }]
     };
-
     return {schemaSanitation, schemaDefinition}
 }
