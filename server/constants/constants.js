@@ -1,0 +1,1 @@
+export const ProcessingType = Object.freeze({ADD_FIELD, CALCULATION, ADD_LIST});

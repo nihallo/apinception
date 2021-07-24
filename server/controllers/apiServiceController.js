@@ -1,6 +1,7 @@
 import express from 'express';
 import { errorObject } from "../services/errorServices.js";
-import { validateApiSchema, getProcessingSteps, getProcessingResult,getSanitizationAndValidationRule } from "../services/apiServices.js";
+import { validateApiSchema, getProcessingSteps,getSanitizationAndValidationRule } from "../services/apiServices.js";
+import { processingApiRequest } from "../services/apiProcessingService.js";
 
 const router = express.Router();
 
@@ -13,8 +14,13 @@ export const apiServiceController = async (req, res) => {
     if (!success){
         res.status(400).json(errorObject("INVALID_REQUEST_FORMAT","Json format is not matching with the definition.") );
     } else{
+        //api request data format is valid, proceed with processing
+
+        //get processing Steps
         const processingSteps = await getProcessingSteps(apiId);
-        const result = await getProcessingResult(object, processingSteps)
+
+        //processing api request data based on processing steps.
+        const result = await processingApiRequest(object, processingSteps)
 
         res.status(200).json(object);
     };
