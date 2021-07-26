@@ -14,16 +14,18 @@ export const processingApiRequest = async (data, processingSteps) =>{
                 //process level 1 data, becuase current processing step is also for level 1
 
                 //##-- check pre-condition before processing for more efficent loop processing, only run for selected records in a list.
-                const isPreConditionTrue = calculateExpression(stepObj.preCondition, data);
+                const isPreConditionTrue = calculateExpression(stepObj.preCondition, currentDataRecord);
                 if ( isPreConditionTrue){ 
                     //process this step when pre-condition is true
                 
                     //##--check processing type
+                    console.log("is it the same value",stepObj.processingType, ProcessingType.ADD_FIELD);
+
                     switch(stepObj.processingType) {
                         case ProcessingType.ADD_FIELD:
                             if (stepObj.addFieldMethod == AddFieldMethod.CALCULATE){
                             //##get field value via calculation
-
+                            currentDataRecord[stepObj.fieldName]= calculateExpression(stepObj.formula, currentDataRecord);
                             }else if(stepObj.addFieldMethod == AddFieldMethod.QUERY_DB){
                             //get field value via database query
 
@@ -33,7 +35,8 @@ export const processingApiRequest = async (data, processingSteps) =>{
                                 // to handle exception
                             }
                             //##-- assign value for field and add to json data
-                            currentDataRecord[stepObj.fieldName]=111;
+
+
                         case ProcessingType.ADD_LIST:
                             console.log();
                             break;
