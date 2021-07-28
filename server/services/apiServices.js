@@ -41,7 +41,7 @@ export const getProcessingSteps = async (apiId) =>{
                 "fieldName": "ageLastBirthday",
                 "columnNames": "",
                 "addFieldMethod": "CALCULATE",
-                "formula": " periodOfInsuranceTo - periodOfInsuranceFrom ",
+                "formula": " (periodOfInsuranceFrom-dateOfBirth)/1000/60/60/24/12 ",
                 "tableName": "",
                 "whereCluse": "",
                 "sequenceCode": "",
@@ -132,6 +132,7 @@ export const getSanitizationAndValidationRule = (apiId) =>{
                         groupType:{type: 'string', optional: false},
                         periodOfInsuranceFrom:{type: 'integer'},
             periodOfInsuranceTo:{type: 'integer'},
+            dateOfBirth:{type: 'integer'},
                 noOfPersonTravelling:{type: 'integer'},
                         noOfAdult:{type: 'integer'},
                         noOfChild:{type: 'integer'},
@@ -158,6 +159,7 @@ export const getSanitizationAndValidationRule = (apiId) =>{
                             groupType:{type: 'string', rules: ["trim"]},
                 periodOfInsuranceFrom:{type: 'integer'},
                     periodOfInsuranceTo:{type: 'integer'},
+                    dateOfBirth:{type: 'integer'},
                             countryCodes:{
                                         type: 'array',
                                                 items: 

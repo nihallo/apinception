@@ -1,8 +1,8 @@
 import {evaluate, re} from "mathjs";
 
-export const calculateExpression = (formula, data, type) => {
+export const calculateExpression = (formula, data, fieldType) => {
 
-    if (type =='DATE'){
+    if (fieldType =='DATE'){
         
     }
 
