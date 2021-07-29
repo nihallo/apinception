@@ -5,12 +5,11 @@ export const processingApiRequest = async (data, processingSteps) =>{
     
     //loop through each steps
     processingSteps.forEach(stepObj=>{
-        // within each step
+    // within each step
         data.forEach(currentDataRecord =>{
             //##--check level, 1-5
             //im at data level 1
-            if( stepObj.dataLevel==1)
-            {
+            if( stepObj.dataLevel==1){
                 //process level 1 data, becuase current processing step is also for level 1
 
                 //##-- check pre-condition before processing for more efficent loop processing, only run for selected records in a list.
@@ -44,6 +43,9 @@ export const processingApiRequest = async (data, processingSteps) =>{
                             console.log();
                             break;
                         case ProcessingType.VALIDATION:
+                            const validationResult = calculateExpression(stepObj.formula, currentDataRecord);
+
+                            currentDataRecord[VALIDATION]=[{stepName:stepObj.stepName,result:validationResult}];
                             console.log();
                             break;
                         default:
@@ -60,6 +62,6 @@ export const processingApiRequest = async (data, processingSteps) =>{
 
             }
         })
-    })
+    })// end of processingSteps.forEach 
     return {data};
 }
