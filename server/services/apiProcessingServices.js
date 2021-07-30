@@ -1,5 +1,7 @@
-import {ProcessingType, AddFieldMethod} from "../constants/constants.js";
+import { ProcessingType, AddFieldMethod} from "../constants/constants.js";
 import { calculateExpression } from "./calculationServices.js";
+import { level1Processing } from "./level1ProcessingService.js";
+import { responseObject } from "./responseObjectServices.js";
 
 export const processingApiRequest = async (data, processingSteps) =>{
     
@@ -13,53 +15,25 @@ export const processingApiRequest = async (data, processingSteps) =>{
                 //process level 1 data, becuase current processing step is also for level 1
 
                 //##-- check pre-condition before processing for more efficent loop processing, only run for selected records in a list.
-                const isPreConditionTrue = calculateExpression(stepObj.preCondition, currentDataRecord);
-                if ( isPreConditionTrue){ 
-                    //process this step when pre-condition is true
-                
-                    //##--check processing type
-                    console.log("is it the same value",stepObj.processingType, ProcessingType.ADD_FIELD);
+                const preConditionResponseObject = calculateExpression(stepObj.preCondition, currentDataRecord);
+                if ( preConditionResponseObject.success){
 
-                    switch(stepObj.processingType) {
-                        case ProcessingType.ADD_FIELD:
-                            if (stepObj.addFieldMethod == AddFieldMethod.CALCULATE){
-                            //##get field value via calculation
-                            currentDataRecord[stepObj.fieldName]= calculateExpression(stepObj.formula, currentDataRecord);
-                            }else if(stepObj.addFieldMethod == AddFieldMethod.QUERY_DB){
-                            //get field value via database query
+                    const processResult = level1Processing(stepObj, currentDataRecord, data);
 
-                            } else{
-                                // wrong input, for add field, so far two methods only, calculate and query_db
-                                
-                                // to handle exception
-                            }
-                            //##-- assign value for field and add to json data
+                    if (processResult.success){
+                        currentDataRecord = level1Processing(stepObj, currentDataRecord, data);
+                    } else {
 
-
-                        case ProcessingType.ADD_LIST:
-                            console.log();
-                            break;
-                        case ProcessingType.CALCULATION:
-                            console.log();
-                            break;
-                        case ProcessingType.VALIDATION:
-                            const validationResult = calculateExpression(stepObj.formula, currentDataRecord);
-
-                            currentDataRecord[VALIDATION]=[{stepName:stepObj.stepName,result:validationResult}];
-                            console.log();
-                            break;
-                        default:
-                        console.log();
                     }
-                    console.log(stepObj.stepNumber, stepObj.dataLevel, stepObj.processingType, "data after:",data)
-                }else{
-                    // Do nothing becuase pre-condition for this step is not true
-                    console.log(stepObj.stepNumber, stepObj.dataLevel, stepObj.processingType, "pre-condition wrong");
-                }
-            }else{
-                // do nothing, because we are at level 1 but the current processing step is not for level 1
-                console.log(stepObj.stepNumber, stepObj.dataLevel, stepObj.processingType, "data level 1 but step is not for data level.");
 
+                }else { // !(preConditionResponseObject.success)
+                    // Do nothing becuase pre-condition for this step is not true
+                    console.log(stepObj.stepNumber, stepObj.dataLevel, stepObj.processingType, "pre-condition not met, skip this step");
+                }
+
+            }else{  // !(stepObj.dataLevel==1)
+                //do nothing, because we are at level 1 but the current processing step is not for level 1
+                console.log(stepObj.stepNumber, stepObj.dataLevel, stepObj.processingType, "data level 1 but step is not for data level.");
             }
         })
     })// end of processingSteps.forEach 

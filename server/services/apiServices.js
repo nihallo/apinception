@@ -1,5 +1,5 @@
 import  inspector from "schema-inspector";
-import { errorObject } from "./errorServices.js";
+import { responseObject } from "./responseObjectServices.js";
 
 export const validateApiSchema = (data,schemaSanitation, schemaDefinition) => {
     //sanitize the data, data will be updated based on sanitization rules
@@ -9,9 +9,9 @@ export const validateApiSchema = (data,schemaSanitation, schemaDefinition) => {
         //schema that will be defined by UI for an user and apiID
 
     if(1==2){
-      console.log(errorObject("SCHEMA_NOT_FOUND","cannot find schema definition"));
+      console.log(responseObject(false,"SCHEMA_NOT_FOUND","cannot find schema definition"));
       // return errors back to user
-      return errorObject("SCHEMA_NOT_FOUND","cannot find schema definition");
+      return responseObject(false,"SCHEMA_NOT_FOUND","cannot find schema definition");
     }
     //Sanitization the data
     inspector.sanitize(schemaSanitation,data);
@@ -21,7 +21,7 @@ export const validateApiSchema = (data,schemaSanitation, schemaDefinition) => {
     if (!validationResult.valid) {
         console.log('errors:', validationResult.error);
         // return errors back to user
-        return errorObject("SCHEMA_VALIDATION_FAILED", validationResult.error);
+        return responseObject(false,"SCHEMA_VALIDATION_FAILED", validationResult.error);
     } else {
         return { success:true, object:data };
     }

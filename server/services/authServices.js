@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import {errorObject} from "../services/errorServices.js";
+import {responseObject} from "../services/responseObjectServices.js";
 
 
 export const verifyTokenGetId = async (token) => {
@@ -20,7 +20,7 @@ export const verifyTokenGetId = async (token) => {
   try {
     const oldUser = await UserModal.findOne({ email });
 
-    if (oldUser) return  errorObject("SIGN_UP_ERROR_USER_EXISTS","User already exists" );
+    if (oldUser) return  responseObject(false,"SIGN_UP_ERROR_USER_EXISTS","User already exists" );
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -31,6 +31,6 @@ export const verifyTokenGetId = async (token) => {
     return { success:true, object: {result, token} };
   } catch (error) {
     console.log(error);
-    return errorObject("SIGN_UP_ERROR_CATCH","Catch expection: Something went wrong" );
+    return responseObject(false,"SIGN_UP_ERROR_CATCH","Catch expection: Something went wrong" );
   }
 };

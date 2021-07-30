@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import {errorObject} from "../services/errorServices.js";
+import {responseObject} from "../services/responseObjectServices.js";
 
 const secret = 'test';
 
@@ -16,7 +16,7 @@ const auth = async (req, res, next) => {
         req.userId = decodedData?.id;
       }catch(error){
         console.log("i am here",error);
-        res.status(401).json(errorObject("AUTH_ERROR",error.message));
+        res.status(401).json(responseObject(false,"AUTH_ERROR",error.message));
       }
 
     } else {

@@ -1,5 +1,5 @@
 import express from 'express';
-import { errorObject } from "../services/errorServices.js";
+import { responseObject } from "../services/errorServices.js";
 import { validateApiSchema, getProcessingSteps,getSanitizationAndValidationRule } from "../services/apiServices.js";
 import { processingApiRequest } from "../services/apiProcessingServices.js";
 
@@ -12,7 +12,7 @@ export const apiServiceController = async (req, res) => {
     const {schemaSanitation, schemaDefinition} = await getSanitizationAndValidationRule(apiId);
     const {success, object} = await validateApiSchema(apiRequestData,schemaSanitation,schemaDefinition);
     if (!success){
-        res.status(400).json(errorObject("INVALID_REQUEST_FORMAT",object) );
+        res.status(400).json(responseObject(false,"INVALID_REQUEST_FORMAT",object) );
     } else{
         //api request data format is valid, proceed with processing
 
