@@ -1,13 +1,15 @@
-import {evaluate, re} from "mathjs";
-import { errorObject } from "./errorServices.js";
+import { evaluate } from "mathjs";
+import { responseObject } from "../services/responseObjectServices.js";
+
 
 export const calculateExpression = (formula, data) => {
-    let result;
-    try{
-         result = evaluate(formula,data);
+    console.log(formula);
+    
+    try {
+        const result = evaluate(formula,data);
+        return responseObject(true, "SUCCESS","SUCESS", result);
     }catch(error){
-        console.log(error);
+        return responseObject(false, "MATH_EVALUATION_ERROR",error.message, error);
     }
-    console.log("will it come to this line?")
-    return result;
+
 } 

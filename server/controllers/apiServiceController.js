@@ -1,7 +1,7 @@
 import express from 'express';
-import { errorObject } from "../services/errorServices.js";
+import { responseObject } from "../services/responseObjectServices.js";
 import { validateApiSchema, getProcessingSteps,getSanitizationAndValidationRule } from "../services/apiServices.js";
-import { processingApiRequest } from "../services/apiProcessingServices.js";
+import { apiProcessing } from "../services/apiProcessingServices.js";
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ export const apiServiceController = async (req, res) => {
     const {schemaSanitation, schemaDefinition} = await getSanitizationAndValidationRule(apiId);
     const {success, object} = await validateApiSchema(apiRequestData,schemaSanitation,schemaDefinition);
     if (!success){
-        res.status(400).json(errorObject("INVALID_REQUEST_FORMAT",object) );
+        res.status(400).json(responseObject(false,"INVALID_REQUEST_FORMAT",object) );
     } else{
         //api request data format is valid, proceed with processing
 
@@ -20,9 +20,13 @@ export const apiServiceController = async (req, res) => {
         const processingSteps = await getProcessingSteps(apiId);
 
         //processing api request data based on processing steps.
-        const result = await processingApiRequest(object, processingSteps)
+        const result = await apiProcessing(object, processingSteps);
+        if(result.success){
+            res.status(200).json(result);
+        } else{
+            res.status(400).json(result );
+        }
 
-        res.status(200).json(object);
     };
     //save request data
     //start processing steps
