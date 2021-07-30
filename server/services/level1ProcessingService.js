@@ -1,6 +1,7 @@
 import { responseObject } from "./responseObjectServices.js";
 import { ProcessingType, AddFieldMethod} from "../constants/constants.js";
 import { calculateExpression } from "./calculationServices.js";
+import ValidationMessageClass from "../classes/ValidationMessageClass.js";
 
 
 
@@ -38,9 +39,11 @@ export const level1Processing = (stepObj, currentDataRecord, data ) => {
         case ProcessingType.VALIDATION:
             const validationResult = calculateExpression(stepObj.formula, currentDataRecord);
             if(validationResult.success){
-                currentDataRecord.VALIDATION =[{stepName:stepObj.stepName,result:validationResult}];
+                var validationMessage = new ValidationMessageClass(stepObj.stepName,stepObj.errorType, stepObj.errorMessage);
+
+                currentDataRecord.VALIDATION =[JSON.stringify(validationMessage)];
                 console.log("check validation value", currentDataRecord);
-                
+
                 return responseObject(true, "SUCCESS", "LEVEL 1 PROCESS SUCCESS",currentDataRecord);
             } else {
                 return responseObject(false, validationResult.code, validationResult.message);

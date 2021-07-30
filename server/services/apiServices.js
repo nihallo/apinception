@@ -49,7 +49,7 @@ export const getProcessingSteps = async (apiId) =>{
             },
             {
                 "stepNumber": 2,
-                "stepName": "validate age >17",
+                "stepName": "checkk whether age is more than 17",
                 "preCondition": "1==1",
                 "processingType": "VALIDATION",
                 "dataLevel": 1,
