@@ -18,7 +18,6 @@ export const processingApiRequest = async (data, processingSteps) =>{
                     //process this step when pre-condition is true
                 
                     //##--check processing type
-                    console.log("is it the same value",stepObj.processingType, ProcessingType.ADD_FIELD);
 
                     switch(stepObj.processingType) {
                         case ProcessingType.ADD_FIELD:
@@ -45,7 +44,7 @@ export const processingApiRequest = async (data, processingSteps) =>{
                         case ProcessingType.VALIDATION:
                             const validationResult = calculateExpression(stepObj.formula, currentDataRecord);
 
-                            currentDataRecord[VALIDATION]=[{stepName:stepObj.stepName,result:validationResult}];
+                            currentDataRecord.VALIDATION=[{stepName:stepObj.stepName,result:validationResult}];
                             console.log();
                             break;
                         default:
