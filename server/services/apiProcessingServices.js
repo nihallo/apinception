@@ -29,7 +29,7 @@ export const apiProcessing = async (data, processingSteps) =>{
                     } else {
 
                         //##--log exception
-                        console.log("Step number: ",stepObj.stepNumber, stepObj.dataLevel, stepObj.processingType, "processing failed");
+                        console.log("Step number: ",stepObj.stepNumber,"Data level: ",stepObj.dataLevel, stepObj.processingType, "processing failed");
                         return responseObject(false,"API_PROCESSING_ERROR",processResult.message,data);
 
                         break loopStep;

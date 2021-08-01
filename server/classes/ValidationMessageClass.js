@@ -5,6 +5,10 @@ export default class ValidationMessageClass {
       this.errorType = errorType;
       this.errorMessage = errorMessage;
     }
+    getJosn(){
+      return {validationStepName: this.validationStepName, errorType: this.errorType, errorMessage: this.errorMessage}
+    }
+
   }
 
   //var myClass = new MyClass()

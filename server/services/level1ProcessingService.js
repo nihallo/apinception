@@ -5,7 +5,7 @@ import ValidationMessageClass from "../classes/ValidationMessageClass.js";
 
 
 
-export const level1Processing = (stepObj, currentDataRecord, data ) => {
+export const level1Processing = async (stepObj, currentDataRecord, data ) => {
 
     //process this step when pre-condition is true
     switch(stepObj.processingType) {
@@ -20,7 +20,8 @@ export const level1Processing = (stepObj, currentDataRecord, data ) => {
                     return responseObject(false, calculationResultObject.code, calculationResultObject.message);
                 }
             }else if(stepObj.addFieldMethod == AddFieldMethod.QUERY_DB){
-                //get field value via database query
+                //## get field value via database query
+
 
             } else{
                 // wrong input, for add field, so far two methods only, calculate and query_db
@@ -31,6 +32,12 @@ export const level1Processing = (stepObj, currentDataRecord, data ) => {
 
 
         case ProcessingType.ADD_LIST:
+            //##-- to get data from db
+
+            //##-- form Json object
+            //##-- attach to the right place
+
+
             return responseObject(false, "NOT DONE","ADD_LIST NOT DONE");
             break;
         case ProcessingType.CALCULATION:
@@ -41,8 +48,11 @@ export const level1Processing = (stepObj, currentDataRecord, data ) => {
             if(validationResult.success){
                 var validationMessage = new ValidationMessageClass(stepObj.stepName,stepObj.errorType, stepObj.errorMessage);
 
-                currentDataRecord.VALIDATION =[JSON.stringify(validationMessage)];
-                console.log("check validation value", currentDataRecord);
+                if(currentDataRecord.VALIDATION){//alreay have value in the list, append to the list
+                    currentDataRecord.VALIDATION.push(validationMessage.getJosn());
+                }else{//no value in the list, create a list
+                    currentDataRecord.VALIDATION =[validationMessage.getJosn()];
+                }
 
                 return responseObject(true, "SUCCESS", "LEVEL 1 PROCESS SUCCESS",currentDataRecord);
             } else {
