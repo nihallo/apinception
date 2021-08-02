@@ -1,29 +1,24 @@
-
 import {responseObject} from "../services/responseObjectServices.js";
-import MasterData from "../models/masterData.js";
+import  mongoPool from "./dataAccess/mongoPool.js";
+
+//db.inventory.find( { status: "A" }, { item: 1, status: 1 } )
+
+
+export const getMasterData= async (tableName, columnNames, whereCluse) =>{
+  mongoPool.getInstance(function (db){
+    // Query your MongoDB database.
+    try{    
+      const promo = await db.collection(tableName, columnNames).find(whereCluse);
+      return responseObject(true,"QUERY SUCCESS", "DB QUERY SUCCESS",promo);
+    }catch(error){
+      return responseObject(false,"QUERY_DB_FAILED", error.message,error);
+    }
+
+});
+
+}
+
 
 /* "columnNames": "PromotionPercentage",
 "tableName": "PromotionSetup",
 "whereCluse": "PromotionCode : promoCode ", */
-
-export const getMasterData = async (data, columnNames, tableName, whereCluse) => {
-
-  try {
-    
-    
-    const oldUser = await UserModal.findOne({ email });
-
-    if (oldUser) return  responseObject(false,"SIGN_UP_ERROR_USER_EXISTS","User already exists" );
-
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    const result = await UserModal.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
-
-    const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "1h" } );
-
-    return { success:true, object: {result, token} };
-  } catch (error) {
-    console.log(error);
-    return responseObject(false,"SIGN_UP_ERROR_CATCH", "Catch expection: Something went wrong");
-  }
-};
