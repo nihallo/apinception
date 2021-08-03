@@ -13,15 +13,14 @@ var option = {
 
 function MongoPool(){}
 
-var p_db;
+var p_client;
 
 function initPool(cb){
-  MongoClient.connect(url, option, function(err, db) {
+  MongoClient.connect(url, option, function(err, client) {
     if (err) throw err;
-
-    p_db = db;
-    if(cb && typeof(cb) == 'function')
-        cb(p_db);
+    p_client = client;
+    if(cb && typeof(client) == 'function')
+        cb(p_client);
   });
   console.log("Mongodb Connected!");
   return MongoPool;
@@ -30,12 +29,12 @@ function initPool(cb){
 MongoPool.initPool = initPool;
 
 function getInstance(cb){
-  if(!p_db){
+  if(!p_client){
     initPool(cb)
   }
   else{
     if(cb && typeof(cb) == 'function')
-      cb(p_db);
+      cb(p_client);
   }
 }
 MongoPool.getInstance = getInstance;
