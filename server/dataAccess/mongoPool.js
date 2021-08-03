@@ -1,7 +1,7 @@
 import mongodb from "mongodb";
 const MongoClient = mongodb.MongoClient;
 
-const url = 'mongodb+srv://testuser:testuser123@cluster0.xyl9j.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const url = 'mongodb+srv://testuser:testuser123@cluster0.xyl9j.mongodb.net/apinception';
 
 var option = { 
     numberOfRetries : 5, 

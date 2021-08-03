@@ -7,32 +7,31 @@ export const apiProcessing = async (data, processingSteps) =>{
     //loop through each steps
     loopStep: 
     for( var stepObj of processingSteps){
-        console.log("what is const stepObj", stepObj);
+        console.log("Step: ", stepObj.stepNumber, "Step Name: ", stepObj.stepName, "loopStep start");
     // within each step
         loopData:
         for ( var currentDataRecord of data ){
-        //data.every(currentDataRecord =>{
-            console.log("Step: ", stepObj.stepNumber, "Step Name: ", stepObj.stepName);
+
+
             //##--check level, 1-5
             //im at data level 1
-            if( stepObj.dataLevel==1){
-                //process level 1 data, becuase current processing step is also for level 1
+            if( stepObj.dataLevel==1){//process level 1 data, becuase current processing step is also for level 1
 
                 //##-- check pre-condition before processing for more efficent loop processing, only run for selected records in a list.
                 const preConditionResponseObject = calculateExpression(stepObj.preCondition, currentDataRecord);
                 if ( preConditionResponseObject.success){
 
-                    const processResult = level1Processing(stepObj, currentDataRecord, data);
+                    const processResult = await level1Processing(stepObj, currentDataRecord, data);
                     
                     if (processResult.success){
                         currentDataRecord = processResult.data;
+                       //no return, process dont stop, continue to next loop.
                     } else {
-
                         //##--log exception
-                        console.log("Step number: ",stepObj.stepNumber,"Data level: ",stepObj.dataLevel, stepObj.processingType, "processing failed");
+                        console.log("level1Processing failed");
+                        console.log("Step number: ",stepObj.stepNumber,"Data level: ",stepObj.dataLevel, stepObj.processingType, "failed message",processResult.message);
                         return responseObject(false,"API_PROCESSING_ERROR",processResult.message,data);
-
-                        break loopStep;
+                        break loopData;
                     }
 
                 }else { // !(preConditionResponseObject.success)

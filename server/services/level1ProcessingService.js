@@ -2,7 +2,7 @@ import { responseObject } from "./responseObjectServices.js";
 import { ProcessingType, AddFieldMethod} from "../constants/constants.js";
 import { calculateExpression } from "./calculationServices.js";
 import ValidationMessageClass from "../classes/ValidationMessageClass.js";
-
+import {getMasterData} from "./masterDataLookup.js";
 
 
 export const level1Processing = async (stepObj, currentDataRecord, data ) => {
@@ -11,21 +11,28 @@ export const level1Processing = async (stepObj, currentDataRecord, data ) => {
     switch(stepObj.processingType) {
         case ProcessingType.ADD_FIELD:
             if (stepObj.addFieldMethod == AddFieldMethod.CALCULATE){
+                console.log("level1Processing, ProcessingType.ADD_FIELD, AddFieldMethod.CALCULATE");
                 //##get field value via calculation
                 const calculationResultObject = calculateExpression(stepObj.formula, currentDataRecord);
                 if(calculationResultObject.success){
+
                     currentDataRecord[stepObj.fieldName]= calculationResultObject.data;
                     return responseObject(true, "SUCCESS", "LEVEL 1 PROCESS SUCCESS",currentDataRecord);
                 } else{
+
+                    console.log("calculation error: ", calculationResultObject.message);
                     return responseObject(false, calculationResultObject.code, calculationResultObject.message);
                 }
             }else if(stepObj.addFieldMethod == AddFieldMethod.QUERY_DB){
                 //## get field value via database query
+                console.log("level1Processing, ProcessingType.ADD_FIELD, AddFieldMethod.QUERY_DB");
 
-
+                const dbResult = await getMasterData(stepObj.tableName, stepObj.columnNames, stepObj.whereCluse);
+                console.log("level 1 process to get data: ", dbResult);
             } else{
                 // wrong input, for add field, so far two methods only, calculate and query_db
-                
+
+                console.log("where are you 12, check data: stepObj.addFieldMethod == AddFieldMethod.QUERY_DB", stepObj.addFieldMethod,"--", AddFieldMethod.QUERY_DB);
                 // to handle exception
             }
             //##-- assign value for field and add to json data
