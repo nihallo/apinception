@@ -21,7 +21,7 @@ export const apiProcessing = async (data, processingSteps) =>{
                 const preConditionResponseObject = calculateExpression(stepObj.preCondition, currentDataRecord);
                 if ( preConditionResponseObject.success){
 
-                    const processResult = await level1Processing(stepObj, currentDataRecord, data);
+                    const processResult = await level1Processing(stepObj, currentDataRecord);
                     
                     if (processResult.success){
                         currentDataRecord = processResult.data;

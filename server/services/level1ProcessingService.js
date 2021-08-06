@@ -5,7 +5,7 @@ import ValidationMessageClass from "../classes/ValidationMessageClass.js";
 import {getMasterData} from "./masterDataLookup.js";
 
 
-export const level1Processing = async (stepObj, currentDataRecord, data ) => {
+export const level1Processing = async (stepObj, currentDataRecord ) => {
 
     //process this step when pre-condition is true
     switch(stepObj.processingType) {

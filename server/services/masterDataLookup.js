@@ -21,19 +21,19 @@ export const getMasterData= async (tableName, columnNames, whereCluse) =>{
 
   try{
 
-    const findObject = whereCluse+","+columnNames;
-    console.log("find the object: ", findObject);
-/* testing evalute for multiple value for the same varible
+    const {query,options} =  constructFindObject(whereCluse, columnNames);
+    console.log("find the object: ", query, " columns:",options);
+ 
+//testing evalute for multiple value for the same varible
     const scope = {
       a: 3,
       b: 4,
       d:{a:0} ,
     };
     console.log("calculate math************", evaluate('a * b', scope));
-*/
 
     await db.collection(tableName)
-            .find(findObject)
+            .find(query,options)
             .toArray(function(err, result) {
               if (err) throw err;
               console.log("db result: ",result);
@@ -48,7 +48,26 @@ export const getMasterData= async (tableName, columnNames, whereCluse) =>{
 
 }
 
+const constructFindObject = (query,  options)=>{
+
+   query = {PromotionCode : '20DISC'};
+   options = {
+    projection: { PromotionPercentage:1}
+  };
+  return {query, options};
+}
+
 
 /* "columnNames": "PromotionPercentage",
 "tableName": "PromotionSetup",
 "whereCluse": "PromotionCode : promoCode ", */
+
+    // Query for a movie that has the title 'The Room'
+/*     const query = { title: "The Room" };
+    const options = {
+      // sort matched documents in descending order by rating
+      sort: { rating: -1 },
+      // Include only the `title` and `imdb` fields in the returned document
+      projection: { _id: 0, title: 1, imdb: 1 },
+    };
+    const movie = await movies.findOne(query, options); */
