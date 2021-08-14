@@ -13,7 +13,7 @@
             "method": "CALCULATE",
             "formula": "getAge(currendate-LEVEL_1.dateOfBirth)",
             "tableName": "",
-            "whereCluse": "",
+            "whereClause": "",
             "sequenceCode": "",
             "errorType": "",
             "errorMessage": ""
@@ -30,7 +30,7 @@
             "method": "CALCULATE",
             "formula": "LEVEL_1.ageLastBirthday>17",
             "tableName": "",
-            "whereCluse": "",
+            "whereClause": "",
             "sequenceCode": "",
             "errorType": "WARNNING",
             "errorMessage": "Age is more than 17 years old."
@@ -47,7 +47,7 @@
             "method": "QUERY_DB",
             "formula": "",
             "tableName": "PlanDetailList",
-            "whereCluse": "alb :dataAtLevel0.ageLastBirthday",
+            "whereClause": "alb :dataAtLevel0.ageLastBirthday",
             "sequenceCode": "",
             "errorType": "WARNNING",
             "errorMessage": "Age is more than 17 years old."
@@ -64,7 +64,7 @@
             "method": "CALCULATE",
             "formula": "lEVEL_1.PlanDetailList.PremBreakdown * 7%",
             "tableName": "",
-            "whereCluse": "",
+            "whereClause": "",
             "sequenceCode": "",
             "errorType": "",
             "errorMessage": ""
@@ -81,7 +81,7 @@
             "method": "SEQUENCE",
             "formula": "",
             "tableName": "",
-            "whereCluse": "",
+            "whereClause": "",
             "sequenceCode": "quotationSequence",
             "errorType": "",
             "errorMessage": ""

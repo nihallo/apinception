@@ -27,7 +27,7 @@ export const level1Processing = async (stepObj, currentDataRecord ) => {
                 //## get field value via database query
                 console.log("level1Processing, ProcessingType.ADD_FIELD, AddFieldMethod.QUERY_DB");
 
-                const dbResult = await getMasterData(stepObj.tableName, stepObj.columnNames, stepObj.whereCluse);
+                const dbResult = await getMasterData(stepObj.tableName, stepObj.columnNames, stepObj.whereClause);
                 console.log("level 1 process to get data: ", dbResult);
             } else{
                 // wrong input, for add field, so far two methods only, calculate and query_db

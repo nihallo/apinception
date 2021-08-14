@@ -7,9 +7,9 @@ import { evaluate } from "mathjs";
 //db.inventory.find( { status: "A" }, { item: 1, status: 1 } )
 //  "columnNames": "{PromotionPercentage:1}",
 //  "tableName": "PromotionSetup",
-//  "whereCluse": "{PromotionCode : promoCode }",
+//  "whereClause": "{PromotionCode : promoCode }",
 
-export const getMasterData= async (tableName, columnNames, whereCluse) =>{
+export const getMasterData= async (tableName, columnNames, whereClause) =>{
 
   console.log("getMasterData: did i come here? getMasterData");
   let db;
@@ -21,7 +21,7 @@ export const getMasterData= async (tableName, columnNames, whereCluse) =>{
 
   try{
 
-    const {query,options} =  constructFindObject(whereCluse, columnNames);
+    const {query,options} =  constructFindObject(whereClause, columnNames);
     console.log("find the object: ", query, " columns:",options);
  
 //testing evalute for multiple value for the same varible
@@ -60,7 +60,7 @@ const constructFindObject = (query,  options)=>{
 
 /* "columnNames": "PromotionPercentage",
 "tableName": "PromotionSetup",
-"whereCluse": "PromotionCode : promoCode ", */
+"whereClause": "PromotionCode : promoCode ", */
 
     // Query for a movie that has the title 'The Room'
 /*     const query = { title: "The Room" };

@@ -42,7 +42,7 @@ export const getProcessingSteps = async (apiId) =>{
                 "columnNames": "",
                 "addFieldMethod": "CALCULATE",
                 "formula": " floor((periodOfInsuranceFrom-dateOfBirth)/1000/60/60/24/30/12,0) ",
-                "whereCluse": "",
+                "whereClause": "",
                 "sequenceCode": "",
                 "errorType": "",
                 "errorMessage": ""
@@ -59,7 +59,7 @@ export const getProcessingSteps = async (apiId) =>{
                 "addFieldMethod": "CALCULATE",
                 "formula": "ageLastBirthday>17",
                 "tableName": "",
-                "whereCluse": "",
+                "whereClause": "",
                 "sequenceCode": "",
                 "errorType": "WARNNING",
                 "errorMessage": "Age is more than 17 years old."
@@ -76,7 +76,7 @@ export const getProcessingSteps = async (apiId) =>{
                 "addFieldMethod": "CALCULATE",
                 "formula": "ageLastBirthday>17",
                 "tableName": "",
-                "whereCluse": "",
+                "whereClause": "",
                 "sequenceCode": "",
                 "errorType": "ERROR",
                 "errorMessage": "Age is more than 17 years old."
@@ -93,8 +93,8 @@ export const getProcessingSteps = async (apiId) =>{
                 "formula": "",
                 "columnNames": "{PromotionPercentage:1}",
                 "tableName": "PromotionSetup",
-                "whereCluse": [ {"whereCluseFieldName":'PromotionCode', "whereCluseOperator":':', "whereCluseValue":'promoCode', "whereCluseJoinNext":"AND"},
-                                {"whereCluseFieldName":'PromotionCode', "whereCluseOperator":':', "whereCluseValue":'promoCode', "whereCluseJoinNext":""}],
+                "whereClause": [ {"whereClauseFieldName":'PromotionCode', "whereClauseOperator":':', "whereClauseValue":'promoCode', "whereClauseJoinNext":"AND"},
+                                {"whereClauseFieldName":'PromotionCode', "whereClauseOperator":':', "whereClauseValue":'promoCode', "whereClauseJoinNext":""}],
                 "sequenceCode": "",
                 "errorType": "ERROR",
                 "errorMessage": "Unable to retrive promo discount."
@@ -111,7 +111,7 @@ export const getProcessingSteps = async (apiId) =>{
                 "formula": "",
                 "columnNames": "areaCode",
                 "tableName": "Country",
-                "whereCluse": "CountryCode : countryCode ",
+                "whereClause": "CountryCode : countryCode ",
                 "sequenceCode": "",
                 "errorType": "ERROR",
                 "errorMessage": "Unable to retrive country area code."
@@ -128,7 +128,7 @@ export const getProcessingSteps = async (apiId) =>{
                 "addFieldMethod": "QUERY_DB",
                 "formula": "",
                 "tableName": "PremiumSetup",
-                "whereCluse": "GroupType: groupType, TripType: tripType, NoOfDays: noOfDays",
+                "whereClause": "GroupType: groupType, TripType: tripType, NoOfDays: noOfDays",
                 "sequenceCode": "",
                 "errorType": "WARNNING",
                 "errorMessage": "Age is more than 17 years old."
@@ -145,7 +145,7 @@ export const getProcessingSteps = async (apiId) =>{
                 "addFieldMethod": "CALCULATE",
                 "formula": "lEVEL_1.PlanDetailList.PremBreakdown * 7%",
                 "tableName": "",
-                "whereCluse": "",
+                "whereClause": "",
                 "sequenceCode": "",
                 "errorType": "",
                 "errorMessage": ""
@@ -162,7 +162,7 @@ export const getProcessingSteps = async (apiId) =>{
                 "addFieldMethod": "SEQUENCE",
                 "formula": "",
                 "tableName": "",
-                "whereCluse": "",
+                "whereClause": "",
                 "sequenceCode": "quotationSequence",
                 "errorType": "",
                 "errorMessage": ""
