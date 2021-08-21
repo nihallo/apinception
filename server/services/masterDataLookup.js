@@ -10,21 +10,17 @@ import { evaluate } from "mathjs";
 //  "whereClause": "{PromotionCode : promoCode }",
 
 export const getMasterData= async (tableName, columnNames, whereClause) =>{
+  console.log("--start getMasterData");
 
-  console.log("getMasterData: did i come here? getMasterData");
   let db;
-
   mongoPool.getInstance(function(client){
-    console.log("getMasterData --getInstance: did i come here? getInstance db:",tableName);
     db = client.db('apinception');
   });
 
   try{
-
     const {query,options} =  constructFindObject(whereClause, columnNames);
-    console.log("find the object: ", query, " columns:",options);
- 
-//testing evalute for multiple value for the same varible
+
+    //testing evalute for multiple value for the same varible
     const scope = {
       a: 3,
       b: 4,
@@ -32,20 +28,30 @@ export const getMasterData= async (tableName, columnNames, whereClause) =>{
     };
     console.log("calculate math************", evaluate('a * b', scope));
 
-    await db.collection(tableName)
-            .find(query,options)
-            .toArray(function(err, result) {
-              if (err) throw err;
-              console.log("db result: ",result);
-            });
+    async function getData () {
+      return new Promise(function(resolve, reject) {
+        db.collection(tableName)
+        .find(query,options)
+        .toArray( function(error, docs) {
+          if (error) {
+            // Reject the Promise with an error
+            console.log("try db query failed: ", error);
+            return reject(error);
+          }
+          // Resolve (or fulfill) the promise with data
+          console.log("------try db query got data: ", docs);
+          return resolve(docs);
+        })
+      });
+    };
 
-    return responseObject(true,"QUERY SUCCESS", "DB QUERY SUCCESS");
-  } catch(error){
-    console.log("try db query failed: ", error);
-    return responseObject(false,"GET_MASTER_DATA_FAILED", error.message ,error);
-
+    return await getData();
+  
   }
-
+  catch(error){
+    console.log("try db query failed: ", error);
+    return reject(responseObject(false,"GET_MASTER_DATA_FAILED", error.message ,error));
+  }
 }
 
 const constructFindObject = (query,  options)=>{
@@ -71,3 +77,16 @@ const constructFindObject = (query,  options)=>{
       projection: { _id: 0, title: 1, imdb: 1 },
     };
     const movie = await movies.findOne(query, options); */
+
+
+
+ /*    function checkUpdateTime(last_updated){
+      var collection = db.collection(last_updated);
+      return collection.insert({ a : 1 }) // also async
+                       .then(function() {
+                         return collection.find({ a : 1 }).toArray();
+                       });
+    }
+    checkUpdateTime('last_updated').then(function(updateTimes) {
+      console.log(updateTimes);
+    }); */
