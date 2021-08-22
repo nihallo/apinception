@@ -10,7 +10,7 @@ import { evaluate } from "mathjs";
 //  "whereClause": "{PromotionCode : promoCode }",
 
 export const getMasterData= async (tableName, columnNames, whereClause) =>{
-  console.log("--start getMasterData");
+  console.log("-----Reading Data Starts-----");
 
   let db;
   mongoPool.getInstance(function(client){
@@ -18,6 +18,8 @@ export const getMasterData= async (tableName, columnNames, whereClause) =>{
   });
 
   try{
+    //TODO : columns can be multiple separate by ,
+    
     const {query,options} =  constructFindObject(whereClause, columnNames);
 
     //testing evalute for multiple value for the same varible
@@ -35,12 +37,13 @@ export const getMasterData= async (tableName, columnNames, whereClause) =>{
         .toArray( function(error, docs) {
           if (error) {
             // Reject the Promise with an error
-            console.log("try db query failed: ", error);
-            return reject(error);
+            console.log("-----Reading Data Ends Failed-----", "Error:",error);
+            
+            return reject(responseObject(false,"GET_MASTER_DATA_FAILED", error.message ,error));
           }
           // Resolve (or fulfill) the promise with data
-          console.log("------try db query got data: ", docs);
-          return resolve(docs);
+          console.log("-----Reading Data Ends Success-----", "Data:",docs);
+          return resolve(responseObject(true,"QUERY_DB_SUCCESS","QUERY_DB_SUCCESS",docs));
         })
       });
     };

@@ -5,7 +5,7 @@ import ValidationMessageClass from "../classes/ValidationMessageClass.js";
 import {getMasterData} from "./masterDataLookup.js";
 
 
-export const level1Processing = async (currentStepObject, currentDataRecord ) => {
+export const level1Processing = async (currentStepObject, currentLevelOneRecord ) => {
 
     console.log("level1Processing: ", "currentStepObject.processingType: ",currentStepObject.processingType, "currentStepObject.addFieldMethod: ",currentStepObject.addFieldMethod);
 
@@ -17,10 +17,10 @@ export const level1Processing = async (currentStepObject, currentDataRecord ) =>
                 case AddFieldMethod.CALCULATE:
                     
                     //##get field value via calculation
-                    const calculationResultObject = calculateExpression(currentStepObject.formula, currentDataRecord);
+                    const calculationResultObject = calculateExpression(currentStepObject.formula, currentLevelOneRecord);
                     if(calculationResultObject.success){
-                        currentDataRecord[currentStepObject.fieldName]= calculationResultObject.data;
-                        return responseObject(true, "SUCCESS", "LEVEL 1 PROCESS SUCCESS",currentDataRecord);
+                        currentLevelOneRecord[currentStepObject.fieldName]= calculationResultObject.data;
+                        return responseObject(true, "SUCCESS", "LEVEL 1 PROCESS SUCCESS",currentLevelOneRecord);
                     } else{
                         console.log("calculation error: ", calculationResultObject.message);
                         return responseObject(false, calculationResultObject.code, calculationResultObject.message);
@@ -35,9 +35,17 @@ export const level1Processing = async (currentStepObject, currentDataRecord ) =>
                     console.log("currentStepObject.columnNames", currentStepObject.columnNames);
                     console.log("currentStepObject.whereClause", currentStepObject.whereClause);
 
-                    const dbResult = await getMasterData(currentStepObject.tableName, currentStepObject.columnNames, currentStepObject.whereClause);
-                    // why data is not passed here to dbResult?????????
-                    console.log("Coming out of getMasterData: ", dbResult);
+                    const dbResultObject = await getMasterData(currentStepObject.tableName, currentStepObject.columnNames, currentStepObject.whereClause);
+                    if(dbResultObject.success){
+                        console.log("Coming out of getMasterData: ", dbResultObject.data);
+                        
+                        //## add the field
+                        currentLevelOneRecord[currentStepObject.fieldName]=dbResultObject.data[0][currentStepObject.columnNames.split(",")[0]];
+
+                    } else{
+                        console.log("faileed to get data from getMasterData: error: ", dbResultObject.message, dbResultObject.data);
+                    }
+
 
                 default:
                 // wrong input, for add field, so far two methods only, calculate and query_db
@@ -69,17 +77,17 @@ export const level1Processing = async (currentStepObject, currentDataRecord ) =>
             return responseObject(false, "NOT DONE","CALCULATION NOT DONE");
             break;
         case ProcessingType.VALIDATION:
-            const validationResult = calculateExpression(currentStepObject.formula, currentDataRecord);
+            const validationResult = calculateExpression(currentStepObject.formula, currentLevelOneRecord);
             if(validationResult.success){
                 var validationMessage = new ValidationMessageClass(currentStepObject.stepName,currentStepObject.errorType, currentStepObject.errorMessage);
 
-                if(currentDataRecord.VALIDATION){//alreay have value in the list, append to the list
-                    currentDataRecord.VALIDATION.push(validationMessage.getJosn());
+                if(currentLevelOneRecord.VALIDATION){//alreay have value in the list, append to the list
+                    currentLevelOneRecord.VALIDATION.push(validationMessage.getJosn());
                 }else{//no value in the list, create a list
-                    currentDataRecord.VALIDATION =[validationMessage.getJosn()];
+                    currentLevelOneRecord.VALIDATION =[validationMessage.getJosn()];
                 }
 
-                return responseObject(true, "SUCCESS", "LEVEL 1 PROCESS SUCCESS",currentDataRecord);
+                return responseObject(true, "SUCCESS", "LEVEL 1 PROCESS SUCCESS",currentLevelOneRecord);
             } else {
                 return responseObject(false, validationResult.code, validationResult.message);
             };

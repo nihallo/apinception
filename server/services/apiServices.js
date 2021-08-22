@@ -7,7 +7,7 @@ export const validateApiSchema = (data,schemaSanitation, schemaDefinition) => {
 
     //## step 1: Sanitization the data
     inspector.sanitize(schemaSanitation,data);
-    
+
     //## step 2: validate data against definition
     const validationResult = inspector.validate(schemaDefinition, data);
     
@@ -84,7 +84,7 @@ export const getProcessingSteps = async (apiId) =>{
                 "fieldName": "promoDiscount",
                 "addFieldMethod": "QUERY_DB",
                 "formula": "",
-                "columnNames": "{PromotionPercentage:1}",
+                "columnNames": "PromotionPercentage",
                 "tableName": "PromotionSetup",
                 "whereClause": [ {"whereClauseFieldName":'PromotionCode', "whereClauseOperator":':', "whereClauseValue":'promoCode', "whereClauseJoinNext":"AND"},
                                 {"whereClauseFieldName":'PromotionCode', "whereClauseOperator":':', "whereClauseValue":'promoCode', "whereClauseJoinNext":""}],
