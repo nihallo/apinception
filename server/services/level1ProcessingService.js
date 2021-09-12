@@ -7,7 +7,7 @@ import {getMasterData} from "./masterDataLookup.js";
 
 export const level1Processing = async (currentStepObject, currentLevelOneRecord ) => {
 
-    console.log("level1Processing: ", "currentStepObject.processingType: ",currentStepObject.processingType, "currentStepObject.addFieldMethod: ",currentStepObject.addFieldMethod);
+    console.log("---level1Processing starts: ", "currentStepObject.processingType: ",currentStepObject.processingType, "currentStepObject.addFieldMethod: ",currentStepObject.addFieldMethod);
 
     //?? check processing processingType
     switch(currentStepObject.processingType) {
@@ -38,18 +38,14 @@ export const level1Processing = async (currentStepObject, currentLevelOneRecord 
                     const dbResultObject = await getMasterData(currentStepObject.tableName, currentStepObject.columnNames, currentStepObject.whereClause);
                     if(dbResultObject.success){
                         console.log("Coming out of getMasterData: ", dbResultObject.data);
-                        
                         //## add the field
                         currentLevelOneRecord[currentStepObject.fieldName]=dbResultObject.data[0][currentStepObject.columnNames.split(",")[0]];
-
                     } else{
-                        console.log("faileed to get data from getMasterData: error: ", dbResultObject.message, dbResultObject.data);
+                        console.log("level1Processing in level1ProcessingService.js: faileed to get data from getMasterData: error: ", dbResultObject.message, dbResultObject.data);
                     }
-
 
                 default:
                 // wrong input, for add field, so far two methods only, calculate and query_db
-
                     console.log("wrong input, for add field, so far two methods only, calculate and query_db: ");
                     console.log("currentStepObject.processingType", currentStepObject.processingType);
                     console.log("currentStepObject.addFieldMethod", currentStepObject.addFieldMethod);

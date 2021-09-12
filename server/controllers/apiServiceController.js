@@ -10,8 +10,11 @@ export const apiServiceController = async (req, res) => {
     //Validate json input format is correct based on api definition
     //sanitize and vlidate the input json format against defined strcuture 
     //structure is defined based on apiId
+    
     //## step 1 get definition
     const {schemaSanitation, schemaDefinition} = await getSanitizationAndValidationRule(apiId);
+        //TODO: If failed.
+
     //## step 2 sanitize and validate
     const {success, object} = validateApiSchema(apiRequestData,schemaSanitation,schemaDefinition);
     if (!success){
@@ -21,6 +24,7 @@ export const apiServiceController = async (req, res) => {
 
         //## step 1: get processing Steps
         const processingSteps = await getProcessingSteps(apiId);
+            //TODO: if failed.
 
         //## step 2: processing api request data based on processing steps.
         const result = await apiProcessing(object, processingSteps);
