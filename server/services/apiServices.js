@@ -104,7 +104,9 @@ export const getProcessingSteps = async (apiId) =>{
                 "formula": "",
                 "columnNames": "areaCode",
                 "tableName": "Country",
-                "whereClause": "CountryCode : countryCode ",
+                "whereClause": [ 
+                                {"whereClauseFieldName":'CountryCode', "whereClauseOperator":':', "whereClauseValue":'countryCode', "whereClauseJoinNext":""}
+                            ],
                 "sequenceCode": "",
                 "errorType": "ERROR",
                 "errorMessage": "Unable to retrive country area code."

@@ -58,7 +58,7 @@ export const getMasterData= async (tableName, columnNames, whereClause) =>{
 }
 
 const constructFindObject = (query,  options)=>{
-
+// TODOHERE
    query = {PromotionCode : '20DISC'};
    options = {
     projection: { PromotionPercentage:1}

@@ -6,7 +6,10 @@ import {getMasterData} from "./masterDataLookup.js";
 
 
 export const level1Processing = async (currentStepObject, currentLevelOneRecord ) => {
-
+    //TODO: for input parameters, the currentRecord is the data in the current loop, could be level 1 or level 2, should be common
+    // but it will limit the calculation to the data in the current loop
+    // should add in fixed parent data at level 1, level 2, level 3.
+    
     console.log("---level1Processing starts: ", "currentStepObject.processingType: ",currentStepObject.processingType, "currentStepObject.addFieldMethod: ",currentStepObject.addFieldMethod);
 
     //?? check processing processingType
@@ -24,7 +27,8 @@ export const level1Processing = async (currentStepObject, currentLevelOneRecord 
                     } else{
                         console.log("calculation error: ", calculationResultObject.message);
                         return responseObject(false, calculationResultObject.code, calculationResultObject.message);
-                    }
+                    };
+                    break;
                 
                 case AddFieldMethod.QUERY_DB:
                     //## get field value via database query
@@ -37,13 +41,18 @@ export const level1Processing = async (currentStepObject, currentLevelOneRecord 
 
                     const dbResultObject = await getMasterData(currentStepObject.tableName, currentStepObject.columnNames, currentStepObject.whereClause);
                     if(dbResultObject.success){
-                        console.log("Coming out of getMasterData: ", dbResultObject.data);
                         //## add the field
                         currentLevelOneRecord[currentStepObject.fieldName]=dbResultObject.data[0][currentStepObject.columnNames.split(",")[0]];
+                        //
+                        //TODO Log error
+                        console.log("level1Processing in level1ProcessingService.js finished success, data: ",dbResultObject.data);
+                        return responseObject(true, "ADD_FIELD BY QUERY_DB SUCCESS", "got data from db and updated to current currentLevelOneRecord.",currentLevelOneRecord);
+ 
                     } else{
                         console.log("level1Processing in level1ProcessingService.js: faileed to get data from getMasterData: error: ", dbResultObject.message, dbResultObject.data);
+                        return responseObject(false, "ADD_FIELD BY QUERY_DB FAILED", dbResultObject.message,dbResultObject.data);
                     }
-
+                    break;
                 default:
                 // wrong input, for add field, so far two methods only, calculate and query_db
                     console.log("wrong input, for add field, so far two methods only, calculate and query_db: ");
@@ -52,7 +61,7 @@ export const level1Processing = async (currentStepObject, currentLevelOneRecord 
                     // to handle exception
 
             }
-        
+        break;
         //##-- assign value for field and add to json data
         case ProcessingType.ADD_LIST:
             //##-- to get data from db
@@ -65,7 +74,6 @@ export const level1Processing = async (currentStepObject, currentLevelOneRecord 
 
             //##-- form Json object
             //##-- attach to the right place
-
 
             return responseObject(false, "NOT DONE","ADD_LIST NOT DONE");
             break;
