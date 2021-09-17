@@ -59,6 +59,9 @@ export const getMasterData= async (tableName, columnNames, whereClause) =>{
 
 const constructFindObject = (query,  options)=>{
 // TODOHERE
+  console.log("constructFindObject in getMasterData in masterDataLookup.js");
+  console.log("query: ",query);
+  console.log("options: ",options);
    query = {PromotionCode : '20DISC'};
    options = {
     projection: { PromotionPercentage:1}
