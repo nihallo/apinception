@@ -33,32 +33,7 @@ export const level1Processing = async (currentStepObject, currentLevelOneRecord 
                 case AddFieldMethod.QUERY_DB:
                     //## get field value via database query
 
-                    //## replace value in where clause, it is a list of field + ":" + value
-                    var flatWhereClause ={};
-
-                    currentStepObject.whereClause.forEach(function(whereList){
-                        //## replace value for one where clause
-                        
-                        let oneWhereClauseLine = whereList.whereClauseFieldName + whereList.whereClauseOperator; // calculate before add: whereList.whereClauseValue
-                        //##COPY TODO: copied from add field, calculate, 
-                        const whereClauseFieldValueCalculate = calculateExpression(whereList.whereClauseValue, currentLevelOneRecord);
-                        if(whereClauseFieldValueCalculate.success){ 
-
-                            flatWhereClause[whereList.whereClauseFieldName] = whereClauseFieldValueCalculate.data;
-                        } else{
-                            console.log("where clause value calculation error: ", whereClauseFieldValueCalculate.message);
-                            return responseObject(false, whereClauseFieldValueCalculate.code, whereClauseFieldValueCalculate.message);
-                        };
-
-                        //##COPY END 
-                        //TODO HERE HERE
-                        // LOOP NEED TO ADD ACUMULATE
-                        console.log("check constructed where :", flatWhereClause);
-
-                    });
-
-
-                    const dbResultObject = await getMasterData(currentStepObject.tableName, currentStepObject.columnNames, currentStepObject.whereClause);
+                    const dbResultObject = await getMasterData(currentStepObject.tableName, currentStepObject.columnNames, currentStepObject.whereClause, currentLevelOneRecord);
                     if(dbResultObject.success){
                         //## add the field
                         currentLevelOneRecord[currentStepObject.fieldName]=dbResultObject.data[0][currentStepObject.columnNames.split(",")[0]];

@@ -9,7 +9,7 @@ import { evaluate } from "mathjs";
 //  "tableName": "PromotionSetup",
 //  "whereClause": "{PromotionCode : promoCode }",
 
-export const getMasterData= async (tableName, columnNames, whereClause) =>{
+export const getMasterData= async (tableName, columnNames, whereClause, currentDataRecord) =>{
   console.log("-----Reading Data Starts-----");
 
   let db;
@@ -18,9 +18,9 @@ export const getMasterData= async (tableName, columnNames, whereClause) =>{
   });
 
   try{
+
     //TODO : columns can be multiple separate by ,
-    
-    const {query,options} =  constructFindObject(whereClause, columnNames);
+    const {query,options} =  constructFindObject(whereClause, columnNames,currentDataRecord);
 
     //testing evalute for multiple value for the same varible
     const scope = {
@@ -57,18 +57,52 @@ export const getMasterData= async (tableName, columnNames, whereClause) =>{
   }
 }
 
-const constructFindObject = (query,  options)=>{
+const constructFindObject = (whereClause,  options, dataRecord)=>{
+
+  const queryObject = constructQueryObject(whereClause,dataRecord);
+
 // TODOHERE
   console.log("constructFindObject in getMasterData in masterDataLookup.js");
-  console.log("query: ",query);
+  console.log("query: ",queryObject);
   console.log("options: ",options);
    query = {PromotionCode : '20DISC'};
    options = {
     projection: { PromotionPercentage:1}
   };
-  return {query, options};
+  return {queryObject, options};
 }
 
+const constructQueryObject = (whereClause,currentLevelDataRecord) =>{
+
+  //## replace value in where clause, it is a list of field + ":" + value
+  var flatWhereClause ={};
+  whereClause.forEach(function(whereList){
+      //## replace value for one where clause
+      
+      //##COPY TODO: copied from add field, calculate, any chance refactoer?
+      //TODO: FILTER CONDITION ONLY SUPPORT "=" & "and"
+      //## if and, format https://mongodb.github.io/node-mongodb-native/markdown-docs/queries.html
+      //## if or, format 
+      //TODO if others value, return error, but should control from UI
+
+      
+      const whereClauseFieldValueCalculate = calculateExpression(whereList.whereClauseValue, currentLevelDataRecord);
+      if(whereClauseFieldValueCalculate.success){ 
+
+          flatWhereClause[whereList.whereClauseFieldName] = whereClauseFieldValueCalculate.data;
+      } else{
+          console.log("where clause value calculation error: ", whereClauseFieldValueCalculate.message);
+          return responseObject(false, whereClauseFieldValueCalculate.code, whereClauseFieldValueCalculate.message);
+      };
+
+      //##COPY END 
+      //TODO HERE HERE
+      // LOOP NEED TO ADD ACUMULATE
+      console.log("check constructed where :", flatWhereClause);
+  });
+
+ 
+}
 
 /* "columnNames": "PromotionPercentage",
 "tableName": "PromotionSetup",

@@ -86,8 +86,8 @@ export const getProcessingSteps = async (apiId) =>{
                 "formula": "",
                 "columnNames": "PromotionPercentage",
                 "tableName": "PromotionSetup",
-                "whereClause": [ {"whereClauseFieldName":'PromotionCode', "whereClauseOperator":':', "whereClauseValue":'promoCode', "whereClauseJoinNext":"AND"},
-                                {"whereClauseFieldName":'PromotionCode', "whereClauseOperator":':', "whereClauseValue":'promoCode', "whereClauseJoinNext":""}],
+                "whereClause": [ {"whereClauseFieldName":'PromotionCode', "whereClauseOperator":'=', "whereClauseValue":'promoCode', "whereClauseJoinNext":"AND"},
+                                {"whereClauseFieldName":'PromotionCode2', "whereClauseOperator":'=', "whereClauseValue":'promoCode', "whereClauseJoinNext":""}],
                 "sequenceCode": "",
                 "errorType": "ERROR",
                 "errorMessage": "Unable to retrive promo discount."
