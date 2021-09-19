@@ -1,6 +1,6 @@
 import {responseObject} from "../services/responseObjectServices.js";
 import  mongoPool from "../dataAccess/mongoPool.js";
-
+import { calculateExpression } from "./calculationServices.js";
 import { evaluate } from "mathjs";
 
 
@@ -11,34 +11,44 @@ import { evaluate } from "mathjs";
 
 export const getMasterData= async (tableName, columnNames, whereClause, currentDataRecord) =>{
   console.log("-----Reading Data Starts-----");
-
+  let queryObject ={};
+  let options={}
   let db;
   mongoPool.getInstance(function(client){
     db = client.db('apinception');
   });
 
   try{
+    //TODO : columns can be multiple separate by , cannot have space.
+    const findObjectResponse =  constructFindObject(whereClause, columnNames,currentDataRecord);
+    if (findObjectResponse.success ){
+      queryObject =findObjectResponse.data.queryObject;
+      options=findObjectResponse.data.options;
+    } else{
+      console.log("Construct query object failed", findObjectResponse.data);
+      return responseObject(false,"GET_MASTER_DATA_FAILED", "Unable to construct query object",findObjectResponse.data);
+    }
 
-    //TODO : columns can be multiple separate by ,
-    const {query,options} =  constructFindObject(whereClause, columnNames,currentDataRecord);
-
-    //testing evalute for multiple value for the same varible
+    /*     //testing evalute for multiple value for the same varible
     const scope = {
       a: 3,
       b: 4,
       d:{a:0} ,
     };
-    console.log("calculate math************", evaluate('a * b', scope));
+    //TODO understand more on evaluate
+    console.log("calculate math************", evaluate('a * b', scope)); */
+    console.log("--before aysnc getData");
+    console.log("-queryObject: ",queryObject);
+    console.log("-options: ",options);
 
     async function getData () {
       return new Promise(function(resolve, reject) {
         db.collection(tableName)
-        .find(query,options)
+        .find(queryObject,options)
         .toArray( function(error, docs) {
           if (error) {
             // Reject the Promise with an error
             console.log("-----Reading Data Ends Failed-----", "Error:",error);
-            
             return reject(responseObject(false,"GET_MASTER_DATA_FAILED", error.message ,error));
           }
           // Resolve (or fulfill) the promise with data
@@ -47,9 +57,7 @@ export const getMasterData= async (tableName, columnNames, whereClause, currentD
         })
       });
     };
-
     return await getData();
-  
   }
   catch(error){
     console.log("try db query failed: ", error);
@@ -57,51 +65,47 @@ export const getMasterData= async (tableName, columnNames, whereClause, currentD
   }
 }
 
-const constructFindObject = (whereClause,  options, dataRecord)=>{
-
-  const queryObject = constructQueryObject(whereClause,dataRecord);
-
-// TODOHERE
-  console.log("constructFindObject in getMasterData in masterDataLookup.js");
-  console.log("query: ",queryObject);
-  console.log("options: ",options);
-   query = {PromotionCode : '20DISC'};
-   options = {
-    projection: { PromotionPercentage:1}
-  };
-  return {queryObject, options};
-}
-
-const constructQueryObject = (whereClause,currentLevelDataRecord) =>{
-
-  //## replace value in where clause, it is a list of field + ":" + value
-  var flatWhereClause ={};
-  whereClause.forEach(function(whereList){
-      //## replace value for one where clause
-      
-      //##COPY TODO: copied from add field, calculate, any chance refactoer?
-      //TODO: FILTER CONDITION ONLY SUPPORT "=" & "and"
-      //## if and, format https://mongodb.github.io/node-mongodb-native/markdown-docs/queries.html
-      //## if or, format 
-      //TODO if others value, return error, but should control from UI
-
-      
-      const whereClauseFieldValueCalculate = calculateExpression(whereList.whereClauseValue, currentLevelDataRecord);
+const constructFindObject = (whereClause,  columns, dataRecord)=>{
+  console.log("---Start constructFindObject: constructFindObject in getMasterData in masterDataLookup.js");
+  console.log("whereClause: ",whereClause);
+  console.log("columns: ",columns);
+  // construct queryObject
+  var queryObject ={};
+  var whereCluaseLoopFailed=true;
+  whereClause.some(function(whereList){
+    //## replace value for one where clause
+    //##COPY TODO: copied from add field, calculate, any chance refactoer?
+    //TODO: FILTER CONDITION ONLY SUPPORT "=" & "and"
+    //## if and, format https://mongodb.github.io/node-mongodb-native/markdown-docs/queries.html
+    //## if or, format 
+    //TODO if others value, return error, but should control from UI
+      const whereClauseFieldValueCalculate = calculateExpression(whereList.whereClauseValue, dataRecord);
       if(whereClauseFieldValueCalculate.success){ 
-
-          flatWhereClause[whereList.whereClauseFieldName] = whereClauseFieldValueCalculate.data;
+        queryObject[whereList.whereClauseFieldName] = whereClauseFieldValueCalculate.data;
       } else{
           console.log("where clause value calculation error: ", whereClauseFieldValueCalculate.message);
-          return responseObject(false, whereClauseFieldValueCalculate.code, whereClauseFieldValueCalculate.message);
+          return true;
       };
-
       //##COPY END 
       //TODO HERE HERE
-      // LOOP NEED TO ADD ACUMULATE
-      console.log("check constructed where :", flatWhereClause);
-  });
+      console.log("check constructed where :", queryObject);
+    }
+  )
+  if (whereCluaseLoopFailed){
+    return responseObject(false, "CONSTRUCT_FIND_OBJECT_ERROR", "Calculate express for value field failed.");
+  }
 
- 
+  let options ={};
+  let optionsProjectionObject={};
+  columns.split(",").forEach(function(column){
+    optionsProjectionObject[column]=1;
+  });
+  const projectionKey="projection";
+  options[projectionKey]=optionsProjectionObject;
+  console.log("construction projection",options);
+  console.log("---End constructFindObject: constructFindObject in getMasterData in masterDataLookup.js");
+
+  return responseObject(true,"CONSTRUCT_FIND_OBJECT_SUCCESS","construct success",{queryObject, options});
 }
 
 /* "columnNames": "PromotionPercentage",

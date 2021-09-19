@@ -4,11 +4,11 @@ import { responseObject } from "./responseObjectServices.js";
 
 export const apiProcessing = async (data, processingSteps) =>{
     
-    console.log("--apiProcessing in apiProcessingServices.js: starts");
+    console.log("---START apiProcessing: --apiProcessing in apiProcessingServices.js: starts");
     //## step 1: loop through each steps
     loopStep: 
     for( var currentStepObject of processingSteps){
-        console.log("Step: ", currentStepObject.stepNumber, "Step Name: ", currentStepObject.stepName, "loopStep start");
+        console.log("--Step: ", currentStepObject.stepNumber, "Step Name: ", currentStepObject.stepName, "loopStep start");
     //## within each step
         loopDataLevel1:
         for ( var currentLevel_1_DataRecord of data ){
@@ -36,7 +36,7 @@ export const apiProcessing = async (data, processingSteps) =>{
                         console.log("Step number: ",currentStepObject.stepNumber,"Data level: ",currentStepObject.dataLevel, currentStepObject.processingType, "failed message",processResult.message);
                         console.log("--apiProcessing in apiProcessingServices.js: failed.");
                         return responseObject(false,"API_PROCESSING_ERROR",processResult.message,data);
-                        break loopDataLevel1;
+                        break loopStep;
                     }
 
                 }else { 
@@ -48,7 +48,7 @@ export const apiProcessing = async (data, processingSteps) =>{
                 console.log("apiProcessing in apiProcessingServices.js: level 2 data processing starts.");
 
                 //## start to process level 2 data
-                const currentLevel_2_DataList = currentLevel_1_DataRecord[currentStepObject.addToWhichListName];
+                const currentLevel_2_DataList = currentLevel_1_DataRecord[currentStepObject.levelTwoList_InTheVan];
                 loopDataLevel2:
                 for ( var currentLevel_2_DataRecord of currentLevel_2_DataList ){
                 //TODO from pre-condition check to call processing service, looks like can be extract to one fucntion.
@@ -74,7 +74,7 @@ export const apiProcessing = async (data, processingSteps) =>{
                         console.log("Step number: ",currentStepObject.stepNumber,"Data level: ",currentStepObject.dataLevel, currentStepObject.processingType, "failed message",processResult.message);
                         console.log("--apiProcessing in apiProcessingServices.js: failed.");
                         return responseObject(false,"API_PROCESSING_ERROR",processResult.message,data);
-                        break loopDataLevel2;
+                        break loopStep;
                     }
                     //TODO COPY ENDS
 
@@ -89,7 +89,12 @@ export const apiProcessing = async (data, processingSteps) =>{
                 //end of level 2 data processing
                 console.log("apiProcessing in apiProcessingServices.js: level 2 data processing ends.");
 
-            }else{  // !(currentStepObject.dataLevel==1)
+            }else if(currentStepObject.dataLevel==3){
+                //## TODO
+                //## loop level two: "levelTwoList_InTheVan": "",
+                //## loog level three:"levelThreeList_InTheHotel":"",
+            }
+            else{  // !(currentStepObject.dataLevel==1)
                 //do nothing, because we are at level 1 but the current processing step is not for level 1
                 console.log("Step Number: ",currentStepObject.stepNumber, "data level: ", currentStepObject.dataLevel, currentStepObject.processingType, "data level 1 but step is not for data level.");
             }
@@ -99,4 +104,5 @@ export const apiProcessing = async (data, processingSteps) =>{
 
         }//end of dtat.forEach
     }// end of processingSteps.forEach 
+    return responseObject(true, "SUCCESS_LAST_LINE_IN_CALCULATION_SERVICES", "Processing Successful",data);
 }
