@@ -1,8 +1,6 @@
 import { TABLE_CREATE, TABLE_DELETE, TABLE_FETCH_ALL } from '../constants/actionTypes';
 import * as api from '../api/index.js';
 
-
-
 export const createTable = (table) => async (dispatch) => {
   try {
     const { data } = await api.createTable(table);

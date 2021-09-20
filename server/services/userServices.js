@@ -37,7 +37,7 @@ export const signin = async (email, password) => {
   
       if (!isPasswordCorrect) return responseObject(false,"SIGN_IN_ERROR_INVALID_CREDENTIALS","Invalid credentials."); 
 
-      const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "1h" });
+      const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "6h" });
   
       return { success:true, object:{result: oldUser, token }};
     } catch (error) {
