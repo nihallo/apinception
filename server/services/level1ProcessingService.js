@@ -37,7 +37,6 @@ export const level1Processing = async (currentStepObject, currentLevelOneRecord 
                     if(dbResultObject.success){
                         //## add the field
                         currentLevelOneRecord[currentStepObject.fieldName]=dbResultObject.data[0][currentStepObject.columnNames.split(",")[0]];
-                        //
                         //TODO Log error
                         console.log("level1Processing in level1ProcessingService.js finished success, data: ",dbResultObject.data);
                         return responseObject(true, "ADD_FIELD BY QUERY_DB SUCCESS", "got data from db and updated to current currentLevelOneRecord.",currentLevelOneRecord);
