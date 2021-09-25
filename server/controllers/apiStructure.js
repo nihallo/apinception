@@ -7,8 +7,18 @@ const router = express.Router();
 
 export const apiStructure = async (req, res) => {
     const apiStructure = req.body;
-
-    const newApiStructure = new ApiStructure({ ...apiStructure, creator: req.userId, createdAt: new Date().toISOString() })
+    const apiNameObject = apiStructure.apiName;
+    const apiCodeObject = apiStructure.apiCode;
+    const apiSanitizationObject = JSON.parse(apiStructure.apiSanitization);
+    const apiValidation = JSON.parse(apiStructure.apiValidation);
+    console.log("check format of the request", typeof(apiSanitizationObject));
+    
+    const newApiStructure = new ApiStructure({ apiName: apiNameObject,
+                                                apiCode:apiCodeObject,
+                                                apiSanitization: apiSanitizationObject,
+                                                apiValidation: apiValidation,
+                                                creator: req.userId, 
+                                                createdAt: new Date().toISOString() })
 
     try {
         await newApiStructure.save();

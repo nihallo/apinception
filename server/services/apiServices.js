@@ -179,62 +179,146 @@ export const getProcessingSteps = async (apiId) =>{
 
 export const getSanitizationAndValidationRule = (apiId) =>{
     const schemaDefinition = {
-        type:'array',
-        items:
-        [{
-            type: 'object',
-            properties: {
-                        companyCode:{type: 'string', optional: false, minLength: 3},
-                        partnerCode:{type: 'string', optional: false, minLength: 3},
-                        tripType:{type: 'string', optional: false},
-                        groupType:{type: 'string', optional: false},
-                        periodOfInsuranceFrom:{type: 'integer'},
-            periodOfInsuranceTo:{type: 'integer'},
-            noOfDays:{type: 'integer'},
-            dateOfBirth:{type: 'integer'},
-                noOfPersonTravelling:{type: 'integer'},
-                        noOfAdult:{type: 'integer'},
-                        noOfChild:{type: 'integer'},
-                        promoCode:{type: 'string'},
-                        countryCodes:{
-                                    type: 'array',
-                                    items: 
-                                        [{
-                                            type: 'object',
-                                            properties: {countryCode: {type: 'string', optional: false, exactLength: 3} }
-                                        }]
-                        }
-        }
-    }]
-};
+        "type":"array",
+        "items":[
+           {
+              "type":"object",
+              "properties":{
+                 "companyCode":{
+                    "type":"string",
+                    "optional":false,
+                    "minLength":3
+                 },
+                 "partnerCode":{
+                    "type":"string",
+                    "optional":false,
+                    "minLength":3
+                 },
+                 "tripType":{
+                    "type":"string",
+                    "optional":false
+                 },
+                 "groupType":{
+                    "type":"string",
+                    "optional":false
+                 },
+                 "periodOfInsuranceFrom":{
+                    "type":"integer"
+                 },
+                 "periodOfInsuranceTo":{
+                    "type":"integer"
+                 },
+                 "noOfDays":{
+                    "type":"integer"
+                 },
+                 "dateOfBirth":{
+                    "type":"integer"
+                 },
+                 "noOfPersonTravelling":{
+                    "type":"integer"
+                 },
+                 "noOfAdult":{
+                    "type":"integer"
+                 },
+                 "noOfChild":{
+                    "type":"integer"
+                 },
+                 "promoCode":{
+                    "type":"string"
+                 },
+                 "countryCodes":{
+                    "type":"array",
+                    "items":[
+                       {
+                          "type":"object",
+                          "properties":{
+                             "countryCode":{
+                                "type":"string",
+                                "optional":false,
+                                "exactLength":3
+                             }
+                          }
+                       }
+                    ]
+                 }
+              }
+           }
+        ]
+     };
     const schemaSanitation = {
-        type: 'array',
-        items: [{
-                type: 'object',
-                properties: {
-                            companyCode:{type: 'string', rules: ["trim"] },
-                            partnerCode:{type: 'string', rules: ["trim"] },
-                            tripType:{type: 'string', rules: ["trim"]},
-                            groupType:{type: 'string', rules: ["trim"]},
-                periodOfInsuranceFrom:{type: 'integer'},
-                    periodOfInsuranceTo:{type: 'integer'},
-                    noOfDays:{type: 'integer'},
-                    dateOfBirth:{type: 'integer'},
-                            countryCodes:{
-                                        type: 'array',
-                                                items: 
-                                                [{
-                                                        type: 'object',
-                                                        properties: {countryCode: {type: 'string' ,rules: ["trim"]} }
-                                                    }]
-                                        },
-                noOfPersonTravelling:{type: 'integer'},
-                            noOfAdult:{type: 'integer'},
-                            noOfChild:{type: 'integer'},
-                            promoCode:{type: 'string'}
-                }
-        }]
-    };
+        "type":"array",
+        "items":[
+           {
+              "type":"object",
+              "properties":{
+                 "companyCode":{
+                    "type":"string",
+                    "rules":[
+                       "trim"
+                    ]
+                 },
+                 "partnerCode":{
+                    "type":"string",
+                    "rules":[
+                       "trim"
+                    ]
+                 },
+                 "tripType":{
+                    "type":"string",
+                    "rules":[
+                       "trim"
+                    ]
+                 },
+                 "groupType":{
+                    "type":"string",
+                    "rules":[
+                       "trim"
+                    ]
+                 },
+                 "periodOfInsuranceFrom":{
+                    "type":"integer"
+                 },
+                 "periodOfInsuranceTo":{
+                    "type":"integer"
+                 },
+                 "noOfDays":{
+                    "type":"integer"
+                 },
+                 "dateOfBirth":{
+                    "type":"integer"
+                 },
+                 "countryCodes":{
+                    "type":"array",
+                    "items":[
+                       {
+                          "type":"object",
+                          "properties":{
+                             "countryCode":{
+                                "type":"string",
+                                "rules":[
+                                   "trim"
+                                ]
+                             }
+                          }
+                       }
+                    ]
+                 },
+                 "noOfPersonTravelling":{
+                    "type":"integer"
+                 },
+                 "noOfAdult":{
+                    "type":"integer"
+                 },
+                 "noOfChild":{
+                    "type":"integer"
+                 },
+                 "promoCode":{
+                    "type":"string"
+                 }
+              }
+           }
+        ]
+     };
     
     return {schemaSanitation, schemaDefinition}
 }
