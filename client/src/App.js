@@ -16,7 +16,6 @@ const App = () => (
         <Route path="/table" exact component={TableManagement} />
         <Route path="/auth" exact component={Auth} />
         <Route path="/tables" exact component={TableManagement} />
-
       </Switch>
     </Container>
   </BrowserRouter>
