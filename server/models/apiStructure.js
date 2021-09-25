@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 const apiStructureSchema = mongoose.Schema({
     apiName: String,
     apiCode: String,
-    apiStructureText: String,
+    apiSanitization: Object,
+    apiValidation: Object,
     creator: String,
     createdAt: {
         type: Date,

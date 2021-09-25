@@ -30,7 +30,9 @@ const ApiRecord = ({ apiRecord }) => {
                 <Typography variant="h6">{apiRecord.apiName}</Typography>
                 <Typography gutterBottom variant="h6" > {apiRecord.apiCode}</Typography>
                 <Typography variant="body2">created: {moment(apiRecord.createdAt).fromNow()}</Typography>
-                <Typography variant="body2" color="textSecondary" component="p">{apiRecord.apiStructureText}</Typography>
+                <Typography variant="body2" color="textSecondary" component="p">{apiRecord.apiSanitization}</Typography>
+                <Typography variant="body2" color="textSecondary" component="p">{apiRecord.apiValidation}</Typography>
+
                 {(user?.result?.googleId === apiRecord?.creator || user?.result?._id === apiRecord?.creator) && (
                 <div>
                     <Button onClick={()=>{handleCurrentIdChange(apiRecord._id)}} size="small" color="primary">

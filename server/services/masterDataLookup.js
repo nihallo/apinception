@@ -114,6 +114,38 @@ const constructFindObject = (whereClause,  columns, dataRecord)=>{
   return responseObject(true,"CONSTRUCT_FIND_OBJECT_SUCCESS","construct success",{queryObject, options});
 }
 
+export const getApiDefination = async (apiCode) =>{
+
+  let db;
+  mongoPool.getInstance(function(client){
+    db = client.db('myFirstDatabase');
+  });
+  try{
+
+    async function getData () {
+      return new Promise(function(resolve, reject) {
+        db.collection('apistructures')
+        .find({apiCode : apiCode})
+        .toArray( function(error, docs) {
+          if (error) {
+            // Reject the Promise with an error
+            console.log("-----Reading Data Ends Failed-----", "Error:",error);
+            return reject(responseObject(false,"GET_MASTER_DATA_FAILED", error.message ,error));
+          }
+          // Resolve (or fulfill) the promise with data
+          console.log("-----Reading Data Ends Success-----", "Data:",docs);
+          return resolve(responseObject(true,"QUERY_DB_SUCCESS","QUERY_DB_SUCCESS",docs[0]));
+        })
+      });
+    };
+    return await getData();
+  }
+  catch(error){
+    console.log("try db query failed: ", error);
+    return reject(responseObject(false,"GET_MASTER_DATA_FAILED", error.message ,error));
+  }
+}
+
 /* "columnNames": "PromotionPercentage",
 "tableName": "PromotionSetup",
 "whereClause": "PromotionCode : promoCode ", */
