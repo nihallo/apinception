@@ -10,7 +10,7 @@ import TableManagement from './components/TableManagement/TableManagement';
 const App = () => (
   <BrowserRouter>
     <Container maxWidth="lg">
-    <Navbar />
+      <Navbar />
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/table" exact component={TableManagement} />

@@ -43,7 +43,11 @@ const ApiStructure = ()=>{
                 <Grid container spacing={3}>
                     <TextField name="apiName" variant="outlined" label="API Name" fullWidth value={form.apiName} onChange={(e) => setForm({ ...form, apiName: e.target.value })} />
                     <TextField name="apiCode" variant="outlined" label="API Code" fullWidth value={form.apiCode} onChange={(e) => setForm({ ...form, apiCode: e.target.value })} />
-                    <TextField name="apiStructureText" variant="outlined" label="API Structure" multiline rows={10} fullWidth value={form.apiStructureText} onChange={(e) => setForm({ ...form, apiStructureText: e.target.value })} />
+                    <TextField name="apiSanitization" variant="outlined" label="API Sanitization" multiline rows={10} fullWidth 
+                        value={form.apiSanitization} onChange={(e) => setForm({ ...form, apiSanitization: e.target.value })} />
+                    <TextField name="apiValidation" variant="outlined" label="API validation" multiline rows={10} fullWidth 
+                        value={form.apiValidation} onChange={(e) => setForm({ ...form, apiValidation: e.target.value })} />
+
                 </Grid>
                 <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                     Submit
