@@ -32,7 +32,8 @@ export const deleteApiStructure = (id) => async (dispatch) => {
 export const getApiListing = () => async (dispatch) => {
   try {
     const { data } = await api.fetchApiListing();
-
+    
+    console.log( "date from api call for api structure",data);
     dispatch({ type: API_FETCH_ALL, payload: data });
   } catch (error) {
     console.log(error);
