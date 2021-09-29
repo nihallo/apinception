@@ -24,7 +24,7 @@ const ApiStructure = ()=>{
         e.preventDefault();
         if(currentId){
             dispatch( updateApiStructure(currentId,form) );
-        }else {
+        }else { 
             dispatch( createApiStructure(form) );
         }
         setForm(initialState);

@@ -22,8 +22,8 @@ export const apiServiceController = async (req, res) => {
         apiSanitization = apiDefinitionObject.data.apiSanitization;
         apiValidation = apiDefinitionObject.data.apiValidation;
 
-        console.log("TO DELETE: DATA FROM MONGO: apiSanitization type", JSON.parse(apiSanitization));
-        console.log("TO DELETE: DATA FROM MONGO: apiValidation type", typeof(apiValidation));
+ //       console.log("TO DELETE: DATA FROM MONGO: apiSanitization type", JSON.parse(apiSanitization));
+  //      console.log("TO DELETE: DATA FROM MONGO: apiValidation type", typeof(apiValidation));
 
 
     }else {

@@ -319,6 +319,5 @@ export const getSanitizationAndValidationRule = (apiId) =>{
            }
         ]
      };
-    
     return {schemaSanitation, schemaDefinition}
 }

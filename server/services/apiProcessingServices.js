@@ -99,10 +99,7 @@ export const apiProcessing = async (data, processingSteps) =>{
                 console.log("Step Number: ",currentStepObject.stepNumber, "data level: ", currentStepObject.dataLevel, currentStepObject.processingType, "data level 1 but step is not for data level.");
             }
             //## im at data level 2
-
-
-
         }//end of dtat.forEach
     }// end of processingSteps.forEach 
-    return responseObject(true, "SUCCESS_LAST_LINE_IN_CALCULATION_SERVICES", "Processing Successful",data);
+    return responseObject(true, "SUCCESS_apiProcessing", "Processing Successful",data);
 }

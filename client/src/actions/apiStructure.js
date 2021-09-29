@@ -32,8 +32,14 @@ export const deleteApiStructure = (id) => async (dispatch) => {
 export const getApiListing = () => async (dispatch) => {
   try {
     const { data } = await api.fetchApiListing();
-    
-    console.log( "date from api call for api structure",data);
+    console.log( "date from api call for api structure before stringify",data);
+
+/*     for(var i =0; i<data.length; i++){
+      data[i].apiSanitization= JSON.stringify(data[i].apiSanitization);
+      data[i].apiValidation = JSON.stringify(data[i].apiValidation);
+      console.log("---record in data: ", data[i]);
+    } */
+    console.log( "date from api call for api structure after stringify",data);
     dispatch({ type: API_FETCH_ALL, payload: data });
   } catch (error) {
     console.log(error);

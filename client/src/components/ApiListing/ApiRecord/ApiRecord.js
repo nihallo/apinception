@@ -5,6 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import useStyles from './styles';
+import ReactJson from 'react-json-view'
 
 import {deleteApiStructure } from '../../../actions/apiStructure'
 import { updateCurrentId } from '../../../actions/currentId';
@@ -28,10 +29,12 @@ const ApiRecord = ({ apiRecord }) => {
             <Container component="main" >
             <Paper className ={classes.paper} elevation ={3} >
                 <Typography variant="h6">{apiRecord.apiName}</Typography>
+
+                <ReactJson src={apiRecord} />{/* 
                 <Typography gutterBottom variant="h6" > {apiRecord.apiCode}</Typography>
                 <Typography variant="body2">created: {moment(apiRecord.createdAt).fromNow()}</Typography>
                 <Typography variant="body2" color="textSecondary" component="p">{apiRecord.apiSanitization}</Typography>
-                <Typography variant="body2" color="textSecondary" component="p">{apiRecord.apiValidation}</Typography>
+                <Typography variant="body2" color="textSecondary" component="p">{apiRecord.apiValidation}</Typography> */}
 
                 {(user?.result?.googleId === apiRecord?.creator || user?.result?._id === apiRecord?.creator) && (
                 <div>
@@ -44,6 +47,7 @@ const ApiRecord = ({ apiRecord }) => {
                 </div>
                 )}
             </Paper>
+            
         </Container>
         </Card>
       </>
