@@ -34,6 +34,7 @@ export default function SimpleMenu() {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}><Link to={'/tables'}>Table Managemenet </Link></MenuItem>
+        <MenuItem onClick={handleClose}><Link to={'/apiProcessingSteps'}>API Processing Steps </Link></MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
