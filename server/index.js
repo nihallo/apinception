@@ -8,6 +8,7 @@ import userRouter from "./routes/user.js";
 import apiStructureRouter from "./routes/apiStructure.js";
 import tablesRouter from './routes/tables.js';
 import apiServiceRouter from './routes/apiServiceRoute.js';
+import apiProcessingStepsRouter from './routes/apiProcessingStepsRouter.js';
 
 import  mongoPool from "./dataAccess/mongoPool.js";
 
@@ -23,6 +24,7 @@ app.use("/user", userRouter);
 app.use("/apiStructure", apiStructureRouter);
 app.use("/tables", tablesRouter);
 app.use("/apiService",apiServiceRouter)
+app.use("/apiProcessingSteps",apiProcessingStepsRouter)
 
 const CONNECTION_URL = 'mongodb+srv://testuser:testuser123@cluster0.xyl9j.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const PORT = process.env.PORT|| 5000;

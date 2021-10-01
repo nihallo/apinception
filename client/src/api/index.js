@@ -30,3 +30,5 @@ export const fetchTables = () => API.get('/tables');
 export const deleteTable= (id) => API.delete(`/tables/${id}`);
 
 
+export const createApiProcessingSteps = (newApiProcessingSteps) => API.post('/apiProcessingSteps',newApiProcessingSteps);
+export const fetchApiProcessingSteps = () => API.get('/apiProcessingSteps');
