@@ -13,9 +13,9 @@ export const createApiProcessingSteps = (apiProcessingSteps) => async (dispatch)
 
   export const getApiProcessingSteps = () => async (dispatch) => {
     try {
-      const { data } = await api.fetchApiProcessingSteps();
     
-      console.log("+++ data from api server: ", data);
+      const { data } = await api.fetchApiProcessingSteps();
+      console.log("++ step 2, dispatch get data from api server: after await ", data);
 
       dispatch({ type: API_PROCESSING_STEPS_FETCH_ALL, payload: data });
     } catch (error) {

@@ -14,11 +14,7 @@ const ApiStructure = ()=>{
 
     const dispatch = useDispatch();
     const currentId = useSelector((state) => (state.currentId));
-//    console.log('currentId after use selector, ', currentId);
-    console.log('what is in the state: ',useSelector((state) => (state)));
     const apiRecord = useSelector((state) => (currentId ? state.apiStructure.find((message) => message._id === currentId) : null));
-    console.log('apiRecord based on currentId after use selector, ', apiRecord);
-    console.log('form data in ApiStructure.js, ', form);
 
     const handleSubmit=(e)=>{      
         e.preventDefault();
@@ -31,9 +27,7 @@ const ApiStructure = ()=>{
     };
 
     useEffect(()=>{
-        console.log('inside ApiStructure UseEffect: is apiRecord data updated: ', apiRecord);
         if(apiRecord) setForm({ ...apiRecord});
-        console.log('inside ApiStructure UseEffect: is form data updated: ', form);
     },[currentId]);
  
     return (
