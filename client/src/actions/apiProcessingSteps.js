@@ -22,3 +22,12 @@ export const createApiProcessingSteps = (apiProcessingSteps) => async (dispatch)
       console.log(error);
     }
   };
+
+  export const deleteApiProcessingStep = (id) => async (dispatch) => {
+    try {
+     await api.deleteApiProcessingSteps(id);    
+      dispatch({ type: API_PROCESSING_STEPS_DELETE, payload: id });
+    } catch (error) {
+      console.log(error);
+    }
+  };

@@ -20,9 +20,8 @@ const ApiProcessingStepsForm = ()=>{
 
   return (
         <Paper className ={classes.paper} elevation ={3}>
-     
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                <Grid container spacing={3}>
+                <Grid container spacing={1}>
                     <TextField name="apiName" variant="outlined" label="API Name" fullWidth value={form.apiName} onChange={(e) => setForm({ ...form, apiName: e.target.value })} />
                     <TextField name="apiCode" variant="outlined" label="API Code" fullWidth value={form.apiCode} onChange={(e) => setForm({ ...form, apiCode: e.target.value })} />
                     <TextField name="apiProcessingSteps" variant="outlined" label="API Processing Steps" multiline rows={10} fullWidth 

@@ -146,6 +146,40 @@ export const getApiDefination = async (apiCode) =>{
   }
 }
 
+export const getApiProcessingStepsList = async (apiCode) =>{
+
+  let db;
+  mongoPool.getInstance(function(client){
+    db = client.db('myFirstDatabase');
+  });
+  try{
+
+    async function getData () {
+      return new Promise(function(resolve, reject) {
+        db.collection('apiprocessingsteps')
+        .find({apiCode : apiCode})
+        .toArray( function(error, docs) {
+          if (error) {
+            // Reject the Promise with an error
+            console.log("-----Reading Data Ends Failed----- GET_PROCESSING_STEP_FAILED.", "Error:",error);
+            return reject(responseObject(false,"GET_PROCESSING_STEP_FAILED", error.message ,error));
+          }
+          // Resolve (or fulfill) the promise with data
+          console.log("-----Reading Data Ends Success-----GET_PROCESSING_STEP. FIRST RECORD WILL BE USED.", "Data:",docs);
+          return resolve(responseObject(true,"QUERY_PROCESSING_STEP_SUCCESS","QUERY_PROCESSING_STEP_SUCCESS",docs[0]));
+        })
+      });
+    };
+    return await getData();
+  }
+  catch(error){
+    console.log("try db query failed: ", error);
+    return reject(responseObject(false,"GET_PROCESSING_STEP_FAILED", error.message ,error));
+  }
+}
+
+
+
 /* "columnNames": "PromotionPercentage",
 "tableName": "PromotionSetup",
 "whereClause": "PromotionCode : promoCode ", */

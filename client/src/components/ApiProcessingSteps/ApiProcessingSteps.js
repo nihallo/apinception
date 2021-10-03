@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { Container, Grow, Grid } from '@material-ui/core';
+import { Container, Grow, Divider ,Card} from '@material-ui/core';
 import { useSelector,useDispatch } from 'react-redux';
 
 import { getApiProcessingSteps } from '../../actions/apiProcessingSteps';
@@ -12,18 +12,16 @@ const ApiProcessingSteps = () => {
   return (
     <Grow in>
       <Container>
+
+          <h1>Add Processing Steps for API</h1>
+          <ApiProcessingStepsForm />
+
+        <Divider />
         <Container>
-          <h1>create tables</h1>
-        </Container>
-        <Container>
-          <Grid container justify="space-between" alignItems="stretch" spacing={3}>
-            <Grid item xs={12} sm={7}>
-              <ApiProcessingStepsListing />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <ApiProcessingStepsForm />
-            </Grid>
-          </Grid>
+        
+            <h1>API Processing Step Listing</h1>
+            <ApiProcessingStepsListing />
+          
         </Container>
       </Container>
     </Grow>

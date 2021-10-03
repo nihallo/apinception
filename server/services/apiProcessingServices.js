@@ -5,6 +5,8 @@ import { responseObject } from "./responseObjectServices.js";
 export const apiProcessing = async (data, processingSteps) =>{
     
     console.log("---START apiProcessing: --apiProcessing in apiProcessingServices.js: starts");
+
+    console.log("??? processing steps: ",processingSteps);
     //## step 1: loop through each steps
     loopStep: 
     for( var currentStepObject of processingSteps){

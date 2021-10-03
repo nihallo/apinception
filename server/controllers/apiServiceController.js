@@ -1,8 +1,8 @@
 import express from 'express';
 import { responseObject } from "../services/responseObjectServices.js";
-import { validateApiSchema, getProcessingSteps } from "../services/apiServices.js";
+import { validateApiSchema } from "../services/dataValidationServices.js";
 import { apiProcessing } from "../services/apiProcessingServices.js";
-import { getApiDefination } from "../services/masterDataLookup.js";
+import { getApiDefination ,getApiProcessingStepsList } from "../services/masterDataLookup.js";
 
 const router = express.Router();
 
@@ -18,18 +18,11 @@ export const apiServiceController = async (req, res) => {
         let apiSanitization={};
         let apiValidation = {};
     if(apiDefinitionObject.success){
-
         apiSanitization = apiDefinitionObject.data.apiSanitization;
         apiValidation = apiDefinitionObject.data.apiValidation;
-
- //       console.log("TO DELETE: DATA FROM MONGO: apiSanitization type", JSON.parse(apiSanitization));
-  //      console.log("TO DELETE: DATA FROM MONGO: apiValidation type", typeof(apiValidation));
-
-
     }else {
         console.log("CANNOT_FIND_API_DEFINATION: API CODE: ",apiCode);
         res.status(400).json(responseObject(false,"CANNOT_FIND_API_DEFINATION","cannot find api setup based on api code: ",apiCode) );
-
     }
 
     //## step 2 sanitize and validate
@@ -40,11 +33,18 @@ export const apiServiceController = async (req, res) => {
         //?? api request data format is valid, proceed with processing
 
         //## step 1: get processing Steps
-        const processingSteps = await getProcessingSteps(apiCode);
+        const processingStepsListObject = await getApiProcessingStepsList(apiCode);
             //TODO: if failed.
+        let processingStepsList=[];
+        if(processingStepsListObject.success){
+            processingStepsList = processingStepsListObject.data.apiProcessingStepsObject;
+        }else {
+            console.log("CANNOT_FIND_API_PROCESSING_STEP_DEFINATION: API CODE: ",apiCode);
+            res.status(400).json(responseObject(false,"CANNOT_FIND_API_PROCESSING_STEP_DEFINATION","cannot find api processing based on api code: ",apiCode) );
+        }
 
         //## step 2: processing api request data based on processing steps.
-        const result = await apiProcessing(object, processingSteps);
+        const result = await apiProcessing(object, processingStepsList);
         if(result.success){
             res.status(200).json(result);
         } else{

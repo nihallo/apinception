@@ -34,3 +34,11 @@ export const getApiProcessingSteps = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
+
+export const deleteApiProcessingSteps = async (req, res) => {
+    const { id } = req.params;
+    
+    await ApiProcessingSteps.findByIdAndRemove(id);
+
+    res.json({ message: "API processing step is deleted successfully.", _id:id });
+}
