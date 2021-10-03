@@ -1,6 +1,6 @@
 import { API_PROCESSING_STEPS_CREATE,API_PROCESSING_STEPS_DELETE,API_PROCESSING_STEPS_UPDATE,API_PROCESSING_STEPS_FETCH_ALL } from '../constants/actionTypes';
 
-const  apiProcessingSteps= (apiProcessingStepsListing = [], action) => {
+const  apiProcessingStepsListing= (apiProcessingStepsListing = [], action) => {
 
   console.log("REDUCER--++ im inside reducer, action type:", action.type);
   console.log("REDUCER--payload: ",action.payload);
@@ -19,4 +19,4 @@ const  apiProcessingSteps= (apiProcessingStepsListing = [], action) => {
   }
 };
 
-export default apiProcessingSteps;
+export default apiProcessingStepsListing;

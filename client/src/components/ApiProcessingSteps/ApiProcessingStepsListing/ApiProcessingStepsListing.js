@@ -14,12 +14,14 @@ const ApiProcessingStepsListing = ()=>{
     dispatch(getApiProcessingSteps());
   }, [apiProcessingStepsListing]);
 
+  console.log("type of apiProcessingStepsListing", typeof(apiProcessingStepsListing));
+
 /*   useEffect(()=>{
     console.log("listing use effect with: apiProcessingStepsListing: ", apiProcessingStepsListing);
   },[apiProcessingStepsListing]) */
 
   return (
-    !apiProcessingStepsListing.length ? <CircularProgress /> : (
+    !apiProcessingStepsListing ? <CircularProgress /> : (
       <Grid container alignItems="stretch" spacing={3}>
         {apiProcessingStepsListing.map((apiProcessingStepsRecord) => (
           <Grid key={apiProcessingStepsRecord._id} item xs={12} sm={12} md={12}>

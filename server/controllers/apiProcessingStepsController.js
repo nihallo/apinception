@@ -27,8 +27,9 @@ export const createApiProcessingSteps = async (req, res) => {
 
 export const getApiProcessingSteps = async (req, res) => { 
     try {
-        const apiProcessingSteps = await ApiProcessingSteps.find();
-        res.status(200).json(apiProcessingSteps);
+        const apiProcessingStepsListing = await ApiProcessingSteps.find();
+        console.log("++ what is passed to frontend?", apiProcessingStepsListing);
+        res.status(200).json(apiProcessingStepsListing);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
