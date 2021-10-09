@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { createTable, getTables, uploadTable} from '../controllers/tables.js';
+import { createTable, getTables, uploadTable,deleteTable} from '../controllers/tables.js';
 
 const router = express.Router();
 import auth from "../middleware/auth.js";
@@ -10,6 +10,6 @@ router.post('/',  createTable);
 router.post('/upload',  uploadTable);
 
 //router.patch('/:id', auth, updateTable);
-//router.delete('/:id', auth, deleteTable);
+router.delete('/:id', auth, deleteTable);
 
 export default router;

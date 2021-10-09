@@ -4,27 +4,25 @@ import { expect } from 'chai';
 
 describe("Travel Quotation API V1 Test", function() {
 
-    describe('user login', ()=>{
-        it('user a@b.com login', ()=>{
-            let userDetails={
-                "email":"a@b.com",
-                "password":"password"
-            }
-            request
-                .post('user/signin')
-                .send(userDetails)
-                .set('Accept', 'application/json')
-                .expect(200)
-                .end(function(err,res) {
-                    console.log('what is inside res:',res);
-                    expect(res.body).to.not.be.empty;
-                    done();
-                })
-        })
-    });
+    var userDetails={
+        "email":"a@b.com",
+        "password":"password"
+    }
+    var token = null;
+    before(function(done) {
+        request
+          .post('user/signin')
+          .send(userDetails)
+          .end(function(err, res) {
+            if(err) return done(err);
+            console.log('whats in the res',res)
+            token = res.body.object.token; // Or something
+            return done();
+          });
+      });
 
     describe('/POST travel request', () => {
-        it('8 processing steps should all finish', (done) => {
+        it('all processing steps should all finish', () => {
             let travelRequest = {
                 "apiCode": "TRAVEL_QUO",
                 "apiRequestData": [
@@ -153,11 +151,12 @@ describe("Travel Quotation API V1 Test", function() {
                 ];
             request
                 .post('apiservice')
+                .set('Authorization', 'Bearer ' + token)
                 .send(travelRequest)
                 .end((err,res)=>{
-                    console.log(err);
-                    console.log(res);
-                   // expect(res.body.data).to.not.be.empty;
+                    expect(res.body.success).to.be.equal(true);
+                    expect(res.body.data[0].promoCode).to.be.equal('20DISC');
+
                 });
         });
     });

@@ -24,7 +24,7 @@ export const getTables = () => async (dispatch) => {
 
 export const deleteTable = (id) => async (dispatch) => {
   try {
-    await await api.deleteTable(id);
+     await api.deleteTable(id);
 
     dispatch({ type: TABLE_DELETE, payload: id });
   } catch (error) {

@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const tableSchema = mongoose.Schema({
     tableName: String,
-    tableDesc: String,
+    tableCode: String,
+    tableDataObject: Object,
     creator: String,
     createdAt: {
         type: Date,

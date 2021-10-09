@@ -89,5 +89,12 @@ export const uploadTable = async (req, res) => {
         });
     }
 }
+export const deleteTable = async (req, res) => {
+    const { id } = req.params;
+    
+    await Table.findByIdAndRemove(id);
+
+    res.json({ message: "Table is deleted successfully.", _id:id });
+}
 
 export default router;
