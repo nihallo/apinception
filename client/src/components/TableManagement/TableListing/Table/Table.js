@@ -24,9 +24,8 @@ const Table = ({tableRecord})=>{
   const handleDelete = (id) =>{
     dispatch(deleteTable(id));
   };
-
-  const showJson = false;
-
+  console.log("data for table: ", tableRecord);
+  
   return (
     <Grow in>
       <Accordion>

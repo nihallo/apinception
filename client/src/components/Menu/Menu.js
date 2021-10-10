@@ -33,7 +33,9 @@ export default function SimpleMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}><Link to={'/tables'}>Table Managemenet </Link></MenuItem>
+        <MenuItem onClick={handleClose}><Link to={'/dashboard'}>Dashboard </Link></MenuItem>
+        <MenuItem onClick={handleClose}><Link to={'/home'}>API Listing </Link></MenuItem>
+        <MenuItem onClick={handleClose}><Link to={'/tables'}>Look Up Table Table</Link></MenuItem>
         <MenuItem onClick={handleClose}><Link to={'/apiProcessingSteps'}>API Processing Steps </Link></MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem onClick={handleClose}>Logout</MenuItem>

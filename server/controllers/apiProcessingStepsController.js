@@ -6,15 +6,12 @@ const router = express.Router();
 
 export const createApiProcessingSteps = async (req, res) => {
     const apiStructure = req.body;
-    const apiNameObject = apiStructure.apiName;
-    const apiCodeObject = apiStructure.apiCode;
-    const apiProcessingStepsObject = JSON.parse(apiStructure.apiProcessingStepsObject);
     
-    const newApiProcessingSteps = new ApiProcessingSteps({ apiName: apiNameObject,
-                                                apiCode:apiCodeObject,
-                                                apiProcessingStepsObject: apiProcessingStepsObject,
-                                                creator: req.userId, 
-                                                createdAt: new Date().toISOString() })
+    const newApiProcessingSteps = new ApiProcessingSteps({  apiName: apiStructure.apiName,
+                                                            apiCode:apiStructure.apiCode,
+                                                            apiProcessingStepsObject: JSON.parse(apiStructure.apiProcessingStepsObject),
+                                                            creator: req.userId, 
+                                                            createdAt: new Date().toISOString() })
 
     try {
         await newApiProcessingSteps.save();

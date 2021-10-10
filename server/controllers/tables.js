@@ -9,7 +9,11 @@ const router = express.Router();
 export const createTable = async (req, res) => {
     const table = req.body;
 
-    const newTable = new Table({ ...table, creator: req.userId, createdAt: new Date().toISOString() })
+    const newTable = new Table({tableName:table.tableName, 
+                                tableCode: table.tableCode,
+                                tableDataObject: JSON.parse(table.tableDataObject),
+                                creator: req.userId, 
+                                createdAt: new Date().toISOString() })
 
     try {
         await newTable.save();

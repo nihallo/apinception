@@ -3,6 +3,7 @@ import { Container } from '@material-ui/core';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Home from './components/Home/Home';
+import Dashboard from './pages/Dashboard';
 import Navbar from './components/Navbar/Navbar';
 import Auth from './components/Auth/Auth';
 import TableManagement from './components/TableManagement/TableManagement';
@@ -13,7 +14,9 @@ const App = () => (
     <Container maxWidth="lg">
       <Navbar />
       <Switch>
-        <Route path="/" exact component={Home} />
+        <Route path="/" exact component={Dashboard} />
+        <Route path="/home" exact component={Home} />
+        <Route path="/dashboard" exact component={Dashboard} />
         <Route path="/table" exact component={TableManagement} />
         <Route path="/auth" exact component={Auth} />
         <Route path="/tables" exact component={TableManagement} />

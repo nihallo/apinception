@@ -32,12 +32,10 @@ const TableForm = ()=>{
       <AccordionDetails>
         <Paper elevation ={3}>
               <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                  <Grid container spacing={1}>
                       <TextField name="tableName" variant="outlined" label="Table Name" fullWidth value={form.tableName} onChange={(e) => setForm({ ...form, tableName: e.target.value })} />
                       <TextField name="tableCode" variant="outlined" label="Table Code" fullWidth value={form.tableCode} onChange={(e) => setForm({ ...form, tableCode: e.target.value })} />
                       <TextField name="tableDataObject" variant="outlined" label="Table Data in Json" multiline rows={10} fullWidth 
                           value={form.tableDataObject} onChange={(e) => setForm({ ...form, tableDataObject: e.target.value })} />
-                  </Grid>
                   <Button type="submit" fullWidth variant="contained" color="primary" >
                       Submit
                   </Button>
